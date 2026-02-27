@@ -119,7 +119,7 @@ Screens:
                   "Status: Checked Out at " & Text(varTodayItem.CheckOutTime, "h:mm am/pm"),
 
                   !IsBlank(varTodayItem.BreakTimeOut) && IsBlank(varTodayItem.BreakTimeIn),
-                  "Status: Temporarily Check-out At " &
+                  "Status: Temporarily Checked-Out At " &
                       Text(varTodayItem.BreakTimeOut, "h:mm am/pm"),
 
                   !IsBlank(varTodayItem.BreakTimeIn),
