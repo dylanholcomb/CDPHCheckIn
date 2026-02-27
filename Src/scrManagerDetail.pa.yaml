@@ -1,9 +1,9 @@
 # ************************************************************************************************
 # Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
 # Use the maker portal to create and edit your Power Apps.
-# 
+#
 # The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
-# 
+#
 # For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
 # ************************************************************************************************
 Screens:
@@ -22,12 +22,14 @@ Screens:
             BorderColor: =RGBA(0, 18, 107, 1)
             DataSource: =spo_LogList
             DefaultMode: =FormMode.View
-            Height: =705
+            Height: =630
             Item: =varSelectedLog
             Width: =1310
             X: =40
             Y: =40
           Children:
+
+            # ── Row 0: Identity + Check-In ──────────────────────────────────────────
             - Date_DataCard2:
                 Control: TypedDataCard@1.0.7
                 Variant: TextualView
@@ -67,6 +69,7 @@ Screens:
                         Width: =(Parent.Width - 48) * 0.4
                         X: =252
                         Y: =16
+
             - EmployeeUPN_DataCard2:
                 Control: TypedDataCard@1.0.7
                 Variant: TextualView
@@ -106,45 +109,7 @@ Screens:
                         Width: =(Parent.Width - 48) * 0.4
                         X: =265
                         Y: =9
-            - Entry_DataCard2:
-                Control: TypedDataCard@1.0.7
-                Variant: TextualView
-                IsLocked: true
-                Properties:
-                  BorderColor: =RGBA(0, 18, 107, 1)
-                  DataField: ="Title"
-                  Default: =ThisItem.Entry
-                  DisplayName: =DataSourceInfo([@spo_LogList],DataSourceInfo.DisplayName,Title)
-                  Required: =false
-                  Width: =436
-                  X: =2
-                  Y: =0
-                Children:
-                  - DataCardKey3:
-                      Control: Text@0.0.51
-                      MetadataKey: FieldName
-                      Properties:
-                        Height: =47
-                        Size: =25
-                        Text: =Parent.DisplayName
-                        Weight: ='TextCanvas.Weight'.Semibold
-                        Width: =182
-                        Wrap: =false
-                        X: =24
-                        Y: =9
-                  - DataCardValue3:
-                      Control: TextInput@0.0.54
-                      MetadataKey: FieldValue
-                      Properties:
-                        AccessibleLabel: =Parent.DisplayName
-                        DisplayMode: =DisplayMode.View
-                        Mode: ="'TextInputCanvas.Mode'.TextInputModeSingleLine"
-                        Required: =Parent.Required
-                        ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
-                        Value: =Parent.Default
-                        Width: =(Parent.Width - 48) * 0.4
-                        X: =256
-                        Y: =9
+
             - CheckInTime_DataCard2:
                 Control: TypedDataCard@1.0.7
                 Variant: TextualView
@@ -156,8 +121,8 @@ Screens:
                   DisplayName: =DataSourceInfo([@spo_LogList],DataSourceInfo.DisplayName,CheckInTime)
                   Required: =false
                   Width: =436
-                  X: =0
-                  Y: =1
+                  X: =2
+                  Y: =0
                 Children:
                   - DataCardKey4:
                       Control: Text@0.0.51
@@ -184,6 +149,8 @@ Screens:
                         Width: =(Parent.Width - 48) * 0.4
                         X: =254
                         Y: =9
+
+            # ── Row 1: Check-Out + Manager editable fields ──────────────────────────
             - CheckOutTime_DataCard2:
                 Control: TypedDataCard@1.0.7
                 Variant: TextualView
@@ -195,7 +162,7 @@ Screens:
                   DisplayName: =DataSourceInfo([@spo_LogList],DataSourceInfo.DisplayName,CheckOutTime)
                   Required: =false
                   Width: =436
-                  X: =1
+                  X: =0
                   Y: =1
                 Children:
                   - DataCardKey5:
@@ -223,205 +190,7 @@ Screens:
                         Width: =(Parent.Width - 48) * 0.4
                         X: =266
                         Y: =9
-            - Plan_DataCard2:
-                Control: TypedDataCard@1.0.7
-                Variant: TextualView
-                IsLocked: true
-                Properties:
-                  BorderColor: =RGBA(0, 18, 107, 1)
-                  DataField: ="Plan"
-                  Default: =ThisItem.Plan
-                  DisplayName: =DataSourceInfo([@spo_LogList],DataSourceInfo.DisplayName,Plan)
-                  Required: =true
-                  Width: =436
-                  X: =2
-                  Y: =1
-                Children:
-                  - DataCardKey6:
-                      Control: Text@0.0.51
-                      MetadataKey: FieldName
-                      Properties:
-                        Height: =43
-                        Size: =25
-                        Text: =Parent.DisplayName
-                        Weight: ='TextCanvas.Weight'.Semibold
-                        Width: =185
-                        Wrap: =false
-                        X: =24
-                        Y: =9
-                  - DataCardValue11:
-                      Control: TextInput@0.0.54
-                      MetadataKey: FieldValue
-                      Properties:
-                        AccessibleLabel: =Parent.DisplayName
-                        DisplayMode: =DisplayMode.View
-                        Mode: ="'TextInputCanvas.Mode'.TextInputModeSingleLine"
-                        Required: =Parent.Required
-                        ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
-                        Value: =Parent.Default
-                        Width: =(Parent.Width - 48) * 0.4
-                        X: =259
-                        Y: =9
-            - Roadblocks_DataCard2:
-                Control: TypedDataCard@1.0.7
-                Variant: TextualView
-                IsLocked: true
-                Properties:
-                  BorderColor: =RGBA(0, 18, 107, 1)
-                  DataField: ="Roadblocks"
-                  Default: =ThisItem.Roadblocks
-                  DisplayName: =DataSourceInfo([@spo_LogList],DataSourceInfo.DisplayName,Roadblocks)
-                  Required: =false
-                  Width: =436
-                  X: =0
-                  Y: =2
-                Children:
-                  - DataCardKey7:
-                      Control: Text@0.0.51
-                      MetadataKey: FieldName
-                      Properties:
-                        Height: =43
-                        Size: =25
-                        Text: =Parent.DisplayName
-                        Weight: ='TextCanvas.Weight'.Semibold
-                        Width: =177
-                        Wrap: =false
-                        X: =25
-                        Y: =9
-                  - DataCardValue12:
-                      Control: TextInput@0.0.54
-                      MetadataKey: FieldValue
-                      Properties:
-                        AccessibleLabel: =Parent.DisplayName
-                        DisplayMode: =DisplayMode.View
-                        Mode: ="'TextInputCanvas.Mode'.TextInputModeSingleLine"
-                        Required: =Parent.Required
-                        ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
-                        Value: =Parent.Default
-                        Width: =(Parent.Width - 48) * 0.4
-                        X: =255
-                        Y: =9
-            - Manager Comments_DataCard1:
-                Control: TypedDataCard@1.0.7
-                Variant: TextualEdit
-                IsLocked: true
-                Properties:
-                  BorderColor: =RGBA(0, 18, 107, 1)
-                  DataField: ="ManagerComments"
-                  Default: =ThisItem.'Manager Comments'
-                  DisplayName: =DataSourceInfo([@spo_LogList],DataSourceInfo.DisplayName,ManagerComments)
-                  MaxLength: =DataSourceInfo([@spo_LogList], DataSourceInfo.MaxLength, ManagerComments)
-                  Required: =false
-                  Update: =DataCardValue6.Value
-                  Width: =436
-                  X: =1
-                  Y: =2
-                Children:
-                  - DataCardKey8:
-                      Control: Text@0.0.51
-                      MetadataKey: FieldName
-                      Properties:
-                        Height: =37
-                        Size: =25
-                        Text: =Parent.DisplayName
-                        Weight: ='TextCanvas.Weight'.Semibold
-                        Width: =259
-                        Wrap: =false
-                        X: =17
-                        Y: =7
-                  - DataCardValue6:
-                      Control: TextInput@0.0.54
-                      MetadataKey: FieldValue
-                      Properties:
-                        AccessibleLabel: =Parent.DisplayName
-                        DisplayMode: =Parent.DisplayMode
-                        Mode: ="'TextInputCanvas.Mode'.TextInputModeSingleLine"
-                        Required: =Parent.Required
-                        ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
-                        Value: =Parent.Default
-                        Width: =(Parent.Width - 48) * 0.4
-                        X: =270
-                        Y: =10
-                  - ErrorMessage8:
-                      Control: Text@0.0.51
-                      MetadataKey: ErrorMessage
-                      Properties:
-                        Height: =30
-                        Text: =Parent.Error
-                        Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
-                        Width: =Parent.Width - 48
-                        X: =24
-                        Y: =DataCardValue6.Y + DataCardValue6.Height
-                  - StarVisible8:
-                      Control: Text@0.0.51
-                      MetadataKey: FieldRequired
-                      Properties:
-                        Align: ='TextCanvas.Align'.Center
-                        Height: =30
-                        Text: ="*"
-                        Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
-                        Width: =30
-                        Y: =DataCardKey8.Y
-            - Hours_DataCard1:
-                Control: TypedDataCard@1.0.7
-                Variant: NumberEdit
-                IsLocked: true
-                Properties:
-                  BorderColor: =RGBA(0, 18, 107, 1)
-                  DataField: ="Hours"
-                  Default: =ThisItem.Hours
-                  DisplayName: =DataSourceInfo([@spo_LogList],DataSourceInfo.DisplayName,Hours)
-                  Required: =false
-                  Update: =Value(DataCardValue7.Value)
-                  Width: =436
-                  X: =2
-                  Y: =2
-                Children:
-                  - DataCardKey9:
-                      Control: Text@0.0.51
-                      MetadataKey: FieldName
-                      Properties:
-                        Height: =47
-                        Size: =25
-                        Text: =Parent.DisplayName
-                        Weight: ='TextCanvas.Weight'.Semibold
-                        Width: =183
-                        Wrap: =false
-                        X: =24
-                        Y: =9
-                  - DataCardValue7:
-                      Control: NumberInput@2.9.12
-                      MetadataKey: FieldValue
-                      Properties:
-                        AccessibleLabel: =Parent.DisplayName
-                        DisplayMode: =Parent.DisplayMode
-                        Max: =Blank()
-                        Min: =Blank()
-                        ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
-                        Value: =Parent.Default
-                        Width: =(Parent.Width - 48) * 0.4
-                        X: =257
-                        Y: =7
-                  - ErrorMessage9:
-                      Control: Text@0.0.51
-                      MetadataKey: ErrorMessage
-                      Properties:
-                        Height: =30
-                        Text: =Parent.Error
-                        Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
-                        Width: =Parent.Width - 48
-                        X: =24
-                        Y: =DataCardValue7.Y + DataCardValue7.Height
-                  - StarVisible9:
-                      Control: Text@0.0.51
-                      MetadataKey: FieldRequired
-                      Properties:
-                        Align: ='TextCanvas.Align'.Center
-                        Height: =30
-                        Text: ="*"
-                        Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
-                        Width: =30
-                        Y: =DataCardKey9.Y
+
             - OvertimeHours_DataCard1:
                 Control: TypedDataCard@1.0.7
                 Variant: NumberEdit
@@ -431,12 +200,11 @@ Screens:
                   DataField: ="OvertimeHours"
                   Default: =ThisItem.OvertimeHours
                   DisplayName: =DataSourceInfo([@spo_LogList],DataSourceInfo.DisplayName,OvertimeHours)
-                  Height: =67
                   Required: =false
                   Update: =Value(DataCardValue8.Value)
                   Width: =436
-                  X: =0
-                  Y: =3
+                  X: =1
+                  Y: =1
                 Children:
                   - DataCardKey10:
                       Control: Text@0.0.51
@@ -485,6 +253,376 @@ Screens:
                         Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
                         Width: =30
                         Y: =DataCardKey10.Y
+
+            - Manager_Comments_DataCard1:
+                Control: TypedDataCard@1.0.7
+                Variant: TextualEdit
+                IsLocked: true
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  DataField: ="ManagerComments"
+                  Default: =ThisItem.'Manager Comments'
+                  DisplayName: =DataSourceInfo([@spo_LogList],DataSourceInfo.DisplayName,ManagerComments)
+                  MaxLength: =DataSourceInfo([@spo_LogList], DataSourceInfo.MaxLength, ManagerComments)
+                  Required: =false
+                  Update: =DataCardValue6.Value
+                  Width: =436
+                  X: =2
+                  Y: =1
+                Children:
+                  - DataCardKey8:
+                      Control: Text@0.0.51
+                      MetadataKey: FieldName
+                      Properties:
+                        Height: =37
+                        Size: =25
+                        Text: =Parent.DisplayName
+                        Weight: ='TextCanvas.Weight'.Semibold
+                        Width: =259
+                        Wrap: =false
+                        X: =17
+                        Y: =7
+                  - DataCardValue6:
+                      Control: TextInput@0.0.54
+                      MetadataKey: FieldValue
+                      Properties:
+                        AccessibleLabel: =Parent.DisplayName
+                        DisplayMode: =Parent.DisplayMode
+                        Mode: ="'TextInputCanvas.Mode'.TextInputModeSingleLine"
+                        Required: =Parent.Required
+                        ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                        Value: =Parent.Default
+                        Width: =(Parent.Width - 48) * 0.4
+                        X: =270
+                        Y: =10
+                  - ErrorMessage8:
+                      Control: Text@0.0.51
+                      MetadataKey: ErrorMessage
+                      Properties:
+                        Height: =30
+                        Text: =Parent.Error
+                        Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                        Width: =Parent.Width - 48
+                        X: =24
+                        Y: =DataCardValue6.Y + DataCardValue6.Height
+                  - StarVisible8:
+                      Control: Text@0.0.51
+                      MetadataKey: FieldRequired
+                      Properties:
+                        Align: ='TextCanvas.Align'.Center
+                        Height: =30
+                        Text: ="*"
+                        Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                        Width: =30
+                        Y: =DataCardKey8.Y
+
+            # ── Rows 2–3: All 6 Plan fields ─────────────────────────────────────────
+            - Plan_DataCard2:
+                Control: TypedDataCard@1.0.7
+                Variant: TextualView
+                IsLocked: true
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  DataField: ="Plan"
+                  Default: =ThisItem.Plan
+                  DisplayName: ="Plan 1"
+                  Required: =false
+                  Width: =436
+                  X: =0
+                  Y: =2
+                Children:
+                  - DataCardKey6:
+                      Control: Text@0.0.51
+                      MetadataKey: FieldName
+                      Properties:
+                        Height: =43
+                        Size: =25
+                        Text: =Parent.DisplayName
+                        Weight: ='TextCanvas.Weight'.Semibold
+                        Width: =185
+                        Wrap: =false
+                        X: =24
+                        Y: =9
+                  - DataCardValue11:
+                      Control: TextInput@0.0.54
+                      MetadataKey: FieldValue
+                      Properties:
+                        AccessibleLabel: =Parent.DisplayName
+                        DisplayMode: =DisplayMode.View
+                        Mode: ="'TextInputCanvas.Mode'.TextInputModeSingleLine"
+                        Required: =Parent.Required
+                        ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                        Value: =Parent.Default
+                        Width: =(Parent.Width - 48) * 0.4
+                        X: =259
+                        Y: =9
+
+            - Plan2_DataCard:
+                Control: TypedDataCard@1.0.7
+                Variant: TextualView
+                IsLocked: true
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  DataField: ="Plan2"
+                  Default: =ThisItem.'Plan 2'
+                  DisplayName: ="Plan 2"
+                  Required: =false
+                  Width: =436
+                  X: =1
+                  Y: =2
+                Children:
+                  - DataCardKeyPlan2:
+                      Control: Text@0.0.51
+                      MetadataKey: FieldName
+                      Properties:
+                        Height: =43
+                        Size: =25
+                        Text: =Parent.DisplayName
+                        Weight: ='TextCanvas.Weight'.Semibold
+                        Width: =185
+                        Wrap: =false
+                        X: =24
+                        Y: =9
+                  - DataCardValuePlan2:
+                      Control: TextInput@0.0.54
+                      MetadataKey: FieldValue
+                      Properties:
+                        AccessibleLabel: =Parent.DisplayName
+                        DisplayMode: =DisplayMode.View
+                        Mode: ="'TextInputCanvas.Mode'.TextInputModeSingleLine"
+                        Required: =Parent.Required
+                        ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                        Value: =Parent.Default
+                        Width: =(Parent.Width - 48) * 0.4
+                        X: =259
+                        Y: =9
+
+            - Plan3_DataCard:
+                Control: TypedDataCard@1.0.7
+                Variant: TextualView
+                IsLocked: true
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  DataField: ="Plan3"
+                  Default: =ThisItem.'Plan 3'
+                  DisplayName: ="Plan 3"
+                  Required: =false
+                  Width: =436
+                  X: =2
+                  Y: =2
+                Children:
+                  - DataCardKeyPlan3:
+                      Control: Text@0.0.51
+                      MetadataKey: FieldName
+                      Properties:
+                        Height: =43
+                        Size: =25
+                        Text: =Parent.DisplayName
+                        Weight: ='TextCanvas.Weight'.Semibold
+                        Width: =185
+                        Wrap: =false
+                        X: =24
+                        Y: =9
+                  - DataCardValuePlan3:
+                      Control: TextInput@0.0.54
+                      MetadataKey: FieldValue
+                      Properties:
+                        AccessibleLabel: =Parent.DisplayName
+                        DisplayMode: =DisplayMode.View
+                        Mode: ="'TextInputCanvas.Mode'.TextInputModeSingleLine"
+                        Required: =Parent.Required
+                        ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                        Value: =Parent.Default
+                        Width: =(Parent.Width - 48) * 0.4
+                        X: =259
+                        Y: =9
+
+            - Plan4_DataCard:
+                Control: TypedDataCard@1.0.7
+                Variant: TextualView
+                IsLocked: true
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  DataField: ="Plan4"
+                  Default: =ThisItem.'Plan 4'
+                  DisplayName: ="Plan 4"
+                  Required: =false
+                  Width: =436
+                  X: =0
+                  Y: =3
+                Children:
+                  - DataCardKeyPlan4:
+                      Control: Text@0.0.51
+                      MetadataKey: FieldName
+                      Properties:
+                        Height: =43
+                        Size: =25
+                        Text: =Parent.DisplayName
+                        Weight: ='TextCanvas.Weight'.Semibold
+                        Width: =185
+                        Wrap: =false
+                        X: =24
+                        Y: =9
+                  - DataCardValuePlan4:
+                      Control: TextInput@0.0.54
+                      MetadataKey: FieldValue
+                      Properties:
+                        AccessibleLabel: =Parent.DisplayName
+                        DisplayMode: =DisplayMode.View
+                        Mode: ="'TextInputCanvas.Mode'.TextInputModeSingleLine"
+                        Required: =Parent.Required
+                        ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                        Value: =Parent.Default
+                        Width: =(Parent.Width - 48) * 0.4
+                        X: =259
+                        Y: =9
+
+            - Plan5_DataCard:
+                Control: TypedDataCard@1.0.7
+                Variant: TextualView
+                IsLocked: true
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  DataField: ="Plan5"
+                  Default: =ThisItem.'Plan 5'
+                  DisplayName: ="Plan 5"
+                  Required: =false
+                  Width: =436
+                  X: =1
+                  Y: =3
+                Children:
+                  - DataCardKeyPlan5:
+                      Control: Text@0.0.51
+                      MetadataKey: FieldName
+                      Properties:
+                        Height: =43
+                        Size: =25
+                        Text: =Parent.DisplayName
+                        Weight: ='TextCanvas.Weight'.Semibold
+                        Width: =185
+                        Wrap: =false
+                        X: =24
+                        Y: =9
+                  - DataCardValuePlan5:
+                      Control: TextInput@0.0.54
+                      MetadataKey: FieldValue
+                      Properties:
+                        AccessibleLabel: =Parent.DisplayName
+                        DisplayMode: =DisplayMode.View
+                        Mode: ="'TextInputCanvas.Mode'.TextInputModeSingleLine"
+                        Required: =Parent.Required
+                        ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                        Value: =Parent.Default
+                        Width: =(Parent.Width - 48) * 0.4
+                        X: =259
+                        Y: =9
+
+            - Plan6_DataCard:
+                Control: TypedDataCard@1.0.7
+                Variant: TextualView
+                IsLocked: true
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  DataField: ="Plan6"
+                  Default: =ThisItem.'Plan 6'
+                  DisplayName: ="Plan 6"
+                  Required: =false
+                  Width: =436
+                  X: =2
+                  Y: =3
+                Children:
+                  - DataCardKeyPlan6:
+                      Control: Text@0.0.51
+                      MetadataKey: FieldName
+                      Properties:
+                        Height: =43
+                        Size: =25
+                        Text: =Parent.DisplayName
+                        Weight: ='TextCanvas.Weight'.Semibold
+                        Width: =185
+                        Wrap: =false
+                        X: =24
+                        Y: =9
+                  - DataCardValuePlan6:
+                      Control: TextInput@0.0.54
+                      MetadataKey: FieldValue
+                      Properties:
+                        AccessibleLabel: =Parent.DisplayName
+                        DisplayMode: =DisplayMode.View
+                        Mode: ="'TextInputCanvas.Mode'.TextInputModeSingleLine"
+                        Required: =Parent.Required
+                        ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                        Value: =Parent.Default
+                        Width: =(Parent.Width - 48) * 0.4
+                        X: =259
+                        Y: =9
+
+            # ── Row 4: Roadblocks ────────────────────────────────────────────────────
+            - Roadblocks_DataCard2:
+                Control: TypedDataCard@1.0.7
+                Variant: TextualView
+                IsLocked: true
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  DataField: ="Roadblocks"
+                  Default: =ThisItem.Roadblocks
+                  DisplayName: =DataSourceInfo([@spo_LogList],DataSourceInfo.DisplayName,Roadblocks)
+                  Required: =false
+                  Width: =436
+                  X: =0
+                  Y: =4
+                Children:
+                  - DataCardKey7:
+                      Control: Text@0.0.51
+                      MetadataKey: FieldName
+                      Properties:
+                        Height: =43
+                        Size: =25
+                        Text: =Parent.DisplayName
+                        Weight: ='TextCanvas.Weight'.Semibold
+                        Width: =177
+                        Wrap: =false
+                        X: =25
+                        Y: =9
+                  - DataCardValue12:
+                      Control: TextInput@0.0.54
+                      MetadataKey: FieldValue
+                      Properties:
+                        AccessibleLabel: =Parent.DisplayName
+                        DisplayMode: =DisplayMode.View
+                        Mode: ="'TextInputCanvas.Mode'.TextInputModeSingleLine"
+                        Required: =Parent.Required
+                        ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                        Value: =Parent.Default
+                        Width: =(Parent.Width - 48) * 0.4
+                        X: =255
+                        Y: =9
+
+      # ── Total Checkout Hours label (below form) ──────────────────────────────────
+      - lblTotalHours:
+          Control: Text@0.0.51
+          Properties:
+            Align: ='TextCanvas.Align'.End
+            FontColor: =RGBA(56, 96, 178, 1)
+            Height: =40
+            Size: =20
+            Text: |-
+              ="Total Checkout Hours: " &
+              Text(
+                  Coalesce(varSelectedLog.CheckOutHours,  0) +
+                  Coalesce(varSelectedLog.CheckOutHours2, 0) +
+                  Coalesce(varSelectedLog.CheckOutHours3, 0) +
+                  Coalesce(varSelectedLog.CheckOutHours4, 0) +
+                  Coalesce(varSelectedLog.CheckOutHours5, 0) +
+                  Coalesce(varSelectedLog.CheckOutHours6, 0),
+                  "0.0"
+              ) & " hrs"
+            Weight: ='TextCanvas.Weight'.Semibold
+            Width: =1310
+            X: =40
+            Y: =682
+
+      # ── Buttons ──────────────────────────────────────────────────────────────────
       - backButtonscrManagerDetail:
           Control: Classic/Button@2.2.0
           Properties:
@@ -493,19 +631,23 @@ Screens:
             DisabledBorderColor: =RGBA(166, 166, 166, 1)
             Fill: =RGBA(56, 96, 178, 1)
             Font: =Font.Arial
-            Height: =70
+            Height: =50
             HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
             HoverColor: =RGBA(255, 255, 255, 1)
             HoverFill: =ColorFade(RGBA(56, 96, 178, 1), -20%)
-            OnSelect: =Back()
+            OnSelect: |-
+              =ResetForm(Form1);
+              Set(varMgrEdit, false);
+              Back()
             PressedBorderColor: =Self.Fill
             PressedColor: =Self.Fill
             PressedFill: =Self.Color
             Size: =20
-            Text: ="Back"
+            Text: ="← Back"
             Width: =173
             X: =40
-            Y: =675
+            Y: =730
+
       - editButtonscrManagerDetail:
           Control: Classic/Button@2.2.0
           Properties:
@@ -514,19 +656,49 @@ Screens:
             DisabledBorderColor: =RGBA(166, 166, 166, 1)
             Fill: =RGBA(56, 96, 178, 1)
             Font: =Font.Arial
-            Height: =70
+            Height: =50
             HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
             HoverColor: =RGBA(255, 255, 255, 1)
             HoverFill: =ColorFade(RGBA(56, 96, 178, 1), -20%)
-            OnSelect: =Back()
+            OnSelect: |-
+              =Set(varMgrEdit, true);
+              EditForm(Form1)
             PressedBorderColor: =Self.Fill
             PressedColor: =Self.Fill
             PressedFill: =Self.Color
             Size: =20
             Text: ="Edit"
+            Visible: =!varMgrEdit
             Width: =173
             X: =608
-            Y: =675
+            Y: =730
+
+      - cancelButtonscrManagerDetail:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =ColorFade(Self.Fill, -15%)
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+            Fill: =RGBA(100, 100, 100, 1)
+            Font: =Font.Arial
+            Height: =50
+            HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =ColorFade(RGBA(100, 100, 100, 1), -20%)
+            OnSelect: |-
+              =ResetForm(Form1);
+              Set(varMgrEdit, false);
+              ViewForm(Form1)
+            PressedBorderColor: =Self.Fill
+            PressedColor: =Self.Fill
+            PressedFill: =Self.Color
+            Size: =20
+            Text: ="Cancel"
+            Visible: =varMgrEdit
+            Width: =173
+            X: =608
+            Y: =730
+
       - saveButtonscrManagerDetail:
           Control: Classic/Button@2.2.0
           Properties:
@@ -535,16 +707,22 @@ Screens:
             DisabledBorderColor: =RGBA(166, 166, 166, 1)
             Fill: =RGBA(56, 96, 178, 1)
             Font: =Font.Arial
-            Height: =70
+            Height: =50
             HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
             HoverColor: =RGBA(255, 255, 255, 1)
             HoverFill: =ColorFade(RGBA(56, 96, 178, 1), -20%)
-            OnSelect: =Back()
+            OnSelect: |-
+              =SubmitForm(Form1);
+              If(
+                  Form1.Error = "",
+                  Set(varMgrEdit, false)
+              )
             PressedBorderColor: =Self.Fill
             PressedColor: =Self.Fill
             PressedFill: =Self.Color
             Size: =20
             Text: ="Save"
+            Visible: =varMgrEdit
             Width: =173
             X: =1160
-            Y: =675
+            Y: =730
