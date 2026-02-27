@@ -9,13 +9,27 @@
 Screens:
   scrHome:
     Properties:
-      Fill: =RGBA(204, 231, 246, 1)
-      LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
+      Fill: =colScreenBg
+      LoadingSpinnerColor: =colPrimaryBlue
       OnVisible: |-
         =// Refresh the data source so all named formulas (colToday, checkedin,
         // checkedout, varTodayItem, varTotalHours) auto-recalculate from fresh SP data.
         Refresh(spo_LogList);
     Children:
+      - lblPageHeader:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            Color: =colWhite
+            Fill: =colPrimaryBlue
+            Font: =Font.Arial
+            FontWeight: =FontWeight.Bold
+            Height: =65
+            Size: =22
+            Text: ="CDPH Daily Check-In"
+            Width: =1366
+            X: =0
+            Y: =0
       - lblHeader:
           Control: Label@2.5.1
           Properties:
@@ -31,7 +45,7 @@ Screens:
               Daily Assignment: Check-In / Check-Out"
             Width: =635
             X: =386
-            Y: =235
+            Y: =260
       - btnCheckIn:
           Control: Classic/Button@2.2.0
           Properties:
@@ -48,12 +62,12 @@ Screens:
                       DisplayMode.Edit   // Only enabled when nothing is done
                   )
               )
-            Fill: =RGBA(56, 96, 178, 1)
+            Fill: =colPrimaryBlue
             Font: =Font.Arial
             Height: =177
             HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
             HoverColor: =RGBA(255, 255, 255, 1)
-            HoverFill: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            HoverFill: =ColorFade(colPrimaryBlue, -20%)
             OnSelect: =Navigate(scrCheckIn,ScreenTransition.Fade)
             PressedBorderColor: =Self.Fill
             PressedColor: =Self.Fill
@@ -80,12 +94,12 @@ Screens:
                       DisplayMode.Disabled
                   )
               )
-            Fill: =RGBA(56, 96, 178, 1)
+            Fill: =colPrimaryBlue
             Font: =Font.Arial
             Height: =177
             HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
             HoverColor: =RGBA(255, 255, 255, 1)
-            HoverFill: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            HoverFill: =ColorFade(colPrimaryBlue, -20%)
             OnSelect: =Navigate(scrCheckOut,ScreenTransition.Fade)
             PressedBorderColor: =Self.Fill
             PressedColor: =Self.Fill
@@ -104,7 +118,7 @@ Screens:
             Image: ='primary-rgb-full-color (1)'
             Width: =324
             X: =519
-            Y: =31
+            Y: =80
       - lblStatus:
           Control: Label@2.5.1
           Properties:
@@ -148,12 +162,12 @@ Screens:
                   DisplayMode.Disabled,   // OT already saved → greyed out
                   DisplayMode.Edit        // OT not saved yet
               )
-            Fill: =RGBA(56, 96, 178, 1)
+            Fill: =colPrimaryBlue
             Font: =Font.Arial
             Height: =71
             HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
             HoverColor: =RGBA(255, 255, 255, 1)
-            HoverFill: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            HoverFill: =ColorFade(colPrimaryBlue, -20%)
             OnSelect: =Navigate(scrOvertime, ScreenTransition.Fade)
             PressedBorderColor: =Self.Fill
             PressedColor: =Self.Fill
@@ -197,11 +211,11 @@ Screens:
                   DisplayMode.Edit,
                   DisplayMode.Disabled
               )
-            Fill: =RGBA(56, 96, 178, 1)
+            Fill: =colPrimaryBlue
             Font: =Font.'Open Sans'
             HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
             HoverColor: =RGBA(255, 255, 255, 1)
-            HoverFill: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            HoverFill: =ColorFade(colPrimaryBlue, -20%)
             OnSelect: |-
               =Patch(
                   spo_LogList,
@@ -233,11 +247,11 @@ Screens:
                   DisplayMode.Edit,
                   DisplayMode.Disabled
               )
-            Fill: =RGBA(56, 96, 178, 1)
+            Fill: =colPrimaryBlue
             Font: =Font.'Open Sans'
             HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
             HoverColor: =RGBA(255, 255, 255, 1)
-            HoverFill: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            HoverFill: =ColorFade(colPrimaryBlue, -20%)
             OnSelect: |-
               =Patch(
                   spo_LogList,
@@ -260,12 +274,12 @@ Screens:
             BorderColor: =ColorFade(Self.Fill, -15%)
             Color: =RGBA(255, 255, 255, 1)
             DisabledBorderColor: =RGBA(166, 166, 166, 1)
-            Fill: =RGBA(56, 96, 178, 1)
+            Fill: =colPrimaryBlue
             Font: =Font.'Open Sans'
             Height: =55
             HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
             HoverColor: =RGBA(255, 255, 255, 1)
-            HoverFill: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            HoverFill: =ColorFade(colPrimaryBlue, -20%)
             OnSelect: =Navigate(scrManager)
             PressedBorderColor: =Self.Fill
             PressedColor: =Self.Fill
@@ -274,4 +288,4 @@ Screens:
             Visible: =varIsManager
             Width: =182
             X: =40
-            Y: =40
+            Y: =80

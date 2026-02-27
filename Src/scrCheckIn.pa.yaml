@@ -9,8 +9,8 @@
 Screens:
   scrCheckIn:
     Properties:
-      Fill: =RGBA(153, 207, 236, 1)
-      LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
+      Fill: =colScreenBg
+      LoadingSpinnerColor: =colPrimaryBlue
       OnVisible: |+
         =Set(
             varPrevLog,
@@ -27,6 +27,20 @@ Screens:
             )
         );
     Children:
+      - lblPageHeader:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            Color: =colWhite
+            Fill: =colPrimaryBlue
+            Font: =Font.Arial
+            FontWeight: =FontWeight.Bold
+            Height: =65
+            Size: =22
+            Text: ="Check-In"
+            Width: =1366
+            X: =0
+            Y: =0
       - Container3:
           Control: GroupContainer@1.4.0
           Variant: ManualLayout
@@ -43,12 +57,12 @@ Screens:
                   BorderColor: =ColorFade(Self.Fill, -15%)
                   Color: =RGBA(255, 255, 255, 1)
                   DisabledBorderColor: =RGBA(166, 166, 166, 1)
-                  Fill: =RGBA(56, 96, 178, 1)
+                  Fill: =colPrimaryBlue
                   Font: =Font.Arial
                   Height: =78
                   HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
                   HoverColor: =RGBA(255, 255, 255, 1)
-                  HoverFill: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+                  HoverFill: =ColorFade(colPrimaryBlue, -20%)
                   OnSelect: =Back()
                   PressedBorderColor: =Self.Fill
                   PressedColor: =Self.Fill
@@ -65,12 +79,12 @@ Screens:
                   BorderColor: =ColorFade(Self.Fill, -15%)
                   Color: =RGBA(255, 255, 255, 1)
                   DisabledBorderColor: =RGBA(166, 166, 166, 1)
-                  Fill: =RGBA(56, 96, 178, 1)
+                  Fill: =colPrimaryBlue
                   Font: =Font.Arial
                   Height: =78
                   HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
                   HoverColor: =RGBA(255, 255, 255, 1)
-                  HoverFill: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+                  HoverFill: =ColorFade(colPrimaryBlue, -20%)
                   OnSelect: |
                     =If(
                         // 1) Basic validation: all hour fields must be numeric
@@ -171,7 +185,7 @@ Screens:
             Height: =361
             Width: =523
             X: =691
-            Y: =227
+            Y: =225
           Children:
             - Task 6 Hours:
                 Control: Classic/TextInput@2.3.2
@@ -306,7 +320,7 @@ Screens:
             Height: =361
             Width: =526
             X: =142
-            Y: =227
+            Y: =225
           Children:
             - Task 3 Hours:
                 Control: Classic/TextInput@2.3.2
@@ -440,15 +454,15 @@ Screens:
             BorderColor: =RGBA(0, 18, 107, 1)
             Font: =Font.Arial
             FontWeight: =FontWeight.Lighter
-            Height: =191
+            Height: =150
             Size: =25
             Text: |-
-              ="Please enter your daily assignments/tasks in the spaces provided 
-              and the associated time needed, per task. 
+              ="Please enter your daily assignments/tasks in the spaces provided
+              and the associated time needed, per task.
               "
             Width: =1305
             X: =26
-            Y: =12
+            Y: =70
       - CheckinHoursTotals:
           Control: Label@2.5.1
           Properties:

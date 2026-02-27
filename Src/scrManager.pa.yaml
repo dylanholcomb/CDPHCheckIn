@@ -9,8 +9,8 @@
 Screens:
   scrManager:
     Properties:
-      Fill: =RGBA(210, 229, 247, 1)
-      LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
+      Fill: =colScreenBg
+      LoadingSpinnerColor: =colPrimaryBlue
       OnVisible: |-
         =// varUserEmail and varIsManager are named formulas — no Set() needed.
         // AddColumns avoids the old ForAll+Collect pattern (which ran a separate
@@ -44,6 +44,20 @@ Screens:
             )
         );
     Children:
+      - lblPageHeader:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            Color: =colWhite
+            Fill: =colPrimaryBlue
+            Font: =Font.Arial
+            FontWeight: =FontWeight.Bold
+            Height: =65
+            Size: =22
+            Text: ="Manager Dashboard"
+            Width: =1366
+            X: =0
+            Y: =0
       - Gallery1:
           Control: Gallery@2.15.0
           Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
@@ -57,12 +71,12 @@ Screens:
             TemplateSize: =89
             Width: =1262
             X: =46
-            Y: =114
+            Y: =148
           Children:
             - Status:
                 Control: Label@2.5.1
                 Properties:
-                  BorderColor: '=If(ThisItem.EmpStatus="Checked In", Color.Green, Color.Black) '
+                  BorderColor: =If(ThisItem.EmpStatus="Checked In", colPurpleAccent, colDarkText)
                   BorderThickness: =4
                   Font: =Font.'Open Sans'
                   FontWeight: =FontWeight.Bold
@@ -183,7 +197,7 @@ Screens:
             Text: ="Name"
             Weight: ='TextCanvas.Weight'.Bold
             X: =54
-            Y: =45
+            Y: =80
       - mngUPN:
           Control: Text@0.0.51
           Properties:
@@ -192,7 +206,7 @@ Screens:
             Text: ="UPN"
             Weight: ='TextCanvas.Weight'.Bold
             X: =423
-            Y: =45
+            Y: =80
       - mngStatus:
           Control: Text@0.0.51
           Properties:
@@ -201,7 +215,7 @@ Screens:
             Text: ="Status"
             Weight: ='TextCanvas.Weight'.Bold
             X: =807
-            Y: =45
+            Y: =80
       - mngTimeToday:
           Control: Text@0.0.51
           Properties:
@@ -210,19 +224,19 @@ Screens:
             Text: ="Time"
             Weight: ='TextCanvas.Weight'.Bold
             X: =1024
-            Y: =45
+            Y: =80
       - backButton_1:
           Control: Classic/Button@2.2.0
           Properties:
             BorderColor: =ColorFade(Self.Fill, -15%)
             Color: =RGBA(255, 255, 255, 1)
             DisabledBorderColor: =RGBA(166, 166, 166, 1)
-            Fill: =RGBA(56, 96, 178, 1)
+            Fill: =colPrimaryBlue
             Font: =Font.Arial
             Height: =70
             HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
             HoverColor: =RGBA(255, 255, 255, 1)
-            HoverFill: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            HoverFill: =ColorFade(colPrimaryBlue, -20%)
             OnSelect: =Navigate(scrHome)
             PressedBorderColor: =Self.Fill
             PressedColor: =Self.Fill

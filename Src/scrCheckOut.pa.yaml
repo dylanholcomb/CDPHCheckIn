@@ -9,12 +9,26 @@
 Screens:
   scrCheckOut:
     Properties:
-      Fill: =RGBA(204, 231, 246, 1)
-      LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
+      Fill: =colScreenBg
+      LoadingSpinnerColor: =colPrimaryBlue
       OnVisible: |-
         =// Refresh the data source so colToday (named formula) reflects latest SP data.
         Refresh(spo_LogList);
     Children:
+      - lblPageHeader:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            Color: =colWhite
+            Fill: =colPrimaryBlue
+            Font: =Font.Arial
+            FontWeight: =FontWeight.Bold
+            Height: =65
+            Size: =22
+            Text: ="Check-Out"
+            Width: =1366
+            X: =0
+            Y: =0
       - lblNoCheckIn:
           Control: Label@2.5.1
           Properties:
@@ -29,7 +43,7 @@ Screens:
             Visible: =IsEmpty(colToday)
             Width: =257
             X: =1096
-            Y: =642
+            Y: =656
       - CheckOutHoursTotals:
           Control: Label@2.5.1
           Properties:
@@ -85,12 +99,12 @@ Screens:
                   BorderColor: =ColorFade(Self.Fill, -15%)
                   Color: =RGBA(255, 255, 255, 1)
                   DisabledBorderColor: =RGBA(166, 166, 166, 1)
-                  Fill: =RGBA(56, 96, 178, 1)
+                  Fill: =colPrimaryBlue
                   Font: =Font.Arial
                   Height: =70
                   HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
                   HoverColor: =RGBA(255, 255, 255, 1)
-                  HoverFill: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+                  HoverFill: =ColorFade(colPrimaryBlue, -20%)
                   OnSelect: =Back()
                   PressedBorderColor: =Self.Fill
                   PressedColor: =Self.Fill
@@ -105,12 +119,12 @@ Screens:
                   BorderColor: =ColorFade(Self.Fill, -15%)
                   Color: =RGBA(255, 255, 255, 1)
                   DisabledBorderColor: =RGBA(166, 166, 166, 1)
-                  Fill: =RGBA(56, 96, 178, 1)
+                  Fill: =colPrimaryBlue
                   Font: =Font.Arial
                   Height: =backButton.Height
                   HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
                   HoverColor: =RGBA(255, 255, 255, 1)
-                  HoverFill: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+                  HoverFill: =ColorFade(colPrimaryBlue, -20%)
                   OnSelect: |-
                     =If(
                         // 1) Validate actual hours are numeric
@@ -228,7 +242,7 @@ Screens:
             Height: =442
             Width: =613
             X: =706
-            Y: =156
+            Y: =165
           Children:
             - inpActual_6:
                 Control: Classic/TextInput@2.3.2
@@ -357,7 +371,7 @@ Screens:
             Height: =447
             Width: =609
             X: =30
-            Y: =151
+            Y: =165
           Children:
             - inpActual_3:
                 Control: Classic/TextInput@2.3.2
@@ -485,9 +499,9 @@ Screens:
             Align: =Align.Center
             BorderColor: =RGBA(0, 18, 107, 1)
             Font: =Font.Arial
-            Height: =136
+            Height: =90
             Size: =25
             Text: ="Please review your daily assignments/tasks in the spaces provided and the actual time used, per task."
             Width: =803
             X: =264
-            Y: =15
+            Y: =70

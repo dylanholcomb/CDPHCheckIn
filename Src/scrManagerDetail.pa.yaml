@@ -9,12 +9,26 @@
 Screens:
   scrManagerDetail:
     Properties:
-      Fill: =RGBA(204, 231, 246, 1)
-      LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
+      Fill: =colScreenBg
+      LoadingSpinnerColor: =colPrimaryBlue
       OnVisible: |-
         =Set(varMgrEdit, false);
         ViewForm(Form1)
     Children:
+      - lblPageHeader:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            Color: =colWhite
+            Fill: =colPrimaryBlue
+            Font: =Font.Arial
+            FontWeight: =FontWeight.Bold
+            Height: =65
+            Size: =22
+            Text: ="Employee Log Detail"
+            Width: =1366
+            X: =0
+            Y: =0
       - Form1:
           Control: Form@2.4.4
           Layout: Horizontal
@@ -22,11 +36,11 @@ Screens:
             BorderColor: =RGBA(0, 18, 107, 1)
             DataSource: =spo_LogList
             DefaultMode: =FormMode.View
-            Height: =630
+            Height: =590
             Item: =varSelectedLog
             Width: =1310
             X: =40
-            Y: =40
+            Y: =70
           Children:
 
             # ── Row 0: Identity + Check-In ──────────────────────────────────────────
@@ -603,7 +617,7 @@ Screens:
           Control: Text@0.0.51
           Properties:
             Align: ='TextCanvas.Align'.End
-            FontColor: =RGBA(56, 96, 178, 1)
+            FontColor: =colPrimaryBlue
             Height: =40
             Size: =20
             Text: |-
@@ -620,7 +634,7 @@ Screens:
             Weight: ='TextCanvas.Weight'.Semibold
             Width: =1310
             X: =40
-            Y: =682
+            Y: =665
 
       # ── Buttons ──────────────────────────────────────────────────────────────────
       - backButtonscrManagerDetail:
@@ -629,12 +643,12 @@ Screens:
             BorderColor: =ColorFade(Self.Fill, -15%)
             Color: =RGBA(255, 255, 255, 1)
             DisabledBorderColor: =RGBA(166, 166, 166, 1)
-            Fill: =RGBA(56, 96, 178, 1)
+            Fill: =colPrimaryBlue
             Font: =Font.Arial
             Height: =50
             HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
             HoverColor: =RGBA(255, 255, 255, 1)
-            HoverFill: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            HoverFill: =ColorFade(colPrimaryBlue, -20%)
             OnSelect: |-
               =ResetForm(Form1);
               Set(varMgrEdit, false);
@@ -646,7 +660,7 @@ Screens:
             Text: ="← Back"
             Width: =173
             X: =40
-            Y: =730
+            Y: =712
 
       - editButtonscrManagerDetail:
           Control: Classic/Button@2.2.0
@@ -654,12 +668,12 @@ Screens:
             BorderColor: =ColorFade(Self.Fill, -15%)
             Color: =RGBA(255, 255, 255, 1)
             DisabledBorderColor: =RGBA(166, 166, 166, 1)
-            Fill: =RGBA(56, 96, 178, 1)
+            Fill: =colPrimaryBlue
             Font: =Font.Arial
             Height: =50
             HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
             HoverColor: =RGBA(255, 255, 255, 1)
-            HoverFill: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            HoverFill: =ColorFade(colPrimaryBlue, -20%)
             OnSelect: |-
               =Set(varMgrEdit, true);
               EditForm(Form1)
@@ -671,7 +685,7 @@ Screens:
             Visible: =!varMgrEdit
             Width: =173
             X: =608
-            Y: =730
+            Y: =712
 
       - cancelButtonscrManagerDetail:
           Control: Classic/Button@2.2.0
@@ -697,7 +711,7 @@ Screens:
             Visible: =varMgrEdit
             Width: =173
             X: =608
-            Y: =730
+            Y: =712
 
       - saveButtonscrManagerDetail:
           Control: Classic/Button@2.2.0
@@ -705,12 +719,12 @@ Screens:
             BorderColor: =ColorFade(Self.Fill, -15%)
             Color: =RGBA(255, 255, 255, 1)
             DisabledBorderColor: =RGBA(166, 166, 166, 1)
-            Fill: =RGBA(56, 96, 178, 1)
+            Fill: =colPrimaryBlue
             Font: =Font.Arial
             Height: =50
             HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
             HoverColor: =RGBA(255, 255, 255, 1)
-            HoverFill: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            HoverFill: =ColorFade(colPrimaryBlue, -20%)
             OnSelect: |-
               =SubmitForm(Form1);
               If(
@@ -725,4 +739,4 @@ Screens:
             Visible: =varMgrEdit
             Width: =173
             X: =1160
-            Y: =730
+            Y: =712

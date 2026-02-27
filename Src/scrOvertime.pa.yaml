@@ -9,8 +9,8 @@
 Screens:
   scrOvertime:
     Properties:
-      Fill: =RGBA(153, 207, 236, 1)
-      LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
+      Fill: =colScreenBg
+      LoadingSpinnerColor: =colPrimaryBlue
       OnVisible: |-
         =// Refresh so colToday (named formula) reflects latest SP data.
         Refresh(spo_LogList);
@@ -45,18 +45,20 @@ Screens:
             Width: =361
             X: =394
             Y: =215
-      - TitleOvertime:
+      - lblPageHeader:
           Control: Label@2.5.1
           Properties:
-            BorderColor: =RGBA(0, 18, 107, 1)
+            Align: =Align.Center
+            Color: =colWhite
+            Fill: =colPrimaryBlue
             Font: =Font.Arial
             FontWeight: =FontWeight.Bold
-            Height: =73
-            Size: =45
+            Height: =65
+            Size: =22
             Text: ="Overtime Entry"
-            Width: =485
-            X: =445
-            Y: =74
+            Width: =1366
+            X: =0
+            Y: =0
       - inpOTHours:
           Control: Classic/TextInput@2.3.2
           Properties:
@@ -90,12 +92,12 @@ Screens:
                   DisplayMode.Edit,
                   DisplayMode.Disabled
               )
-            Fill: =RGBA(56, 96, 178, 1)
+            Fill: =colPrimaryBlue
             Font: =Font.Arial
             Height: =90
             HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
             HoverColor: =RGBA(255, 255, 255, 1)
-            HoverFill: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            HoverFill: =ColorFade(colPrimaryBlue, -20%)
             OnSelect: |-
               =If(
                   CountRows(colToday) = 0,
@@ -135,12 +137,12 @@ Screens:
             BorderColor: =ColorFade(Self.Fill, -15%)
             Color: =RGBA(255, 255, 255, 1)
             DisabledBorderColor: =RGBA(166, 166, 166, 1)
-            Fill: =RGBA(56, 96, 178, 1)
+            Fill: =colPrimaryBlue
             Font: =Font.Arial
             Height: =90
             HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
             HoverColor: =RGBA(255, 255, 255, 1)
-            HoverFill: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            HoverFill: =ColorFade(colPrimaryBlue, -20%)
             OnSelect: =Back()
             PressedBorderColor: =Self.Fill
             PressedColor: =Self.Fill
