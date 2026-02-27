@@ -47,6 +47,18 @@ App:
                     Coalesce(Value(varTodayItem.'Hours 5'),   0) +
                     Coalesce(Value(varTodayItem.'Hours 6'),   0);
 
+    // ── CDPH Brand Color Tokens ────────────────────────────────────────────────────────────────
+    // Source: cdph.ca.gov brand page (2024 refresh). One place to update for all screens.
+    colPrimaryBlue  = RGBA(0,   37,  149, 1);   // #002595 — header bars, primary buttons
+    colMediumBlue   = RGBA(0,  119,  207, 1);   // #0077CF — links, secondary buttons
+    colPurpleAccent = RGBA(144,  42,  146, 1);   // #902A92 — accent only (status, borders)
+    colTeal         = RGBA(0,  120,  136, 1);   // #007888 — teal accent
+    colDarkText     = RGBA(32,   32,   32, 1);   // #202020 — body text
+    colScreenBg     = RGBA(204, 231,  246, 1);   // light blue screen background (existing)
+    colWhite        = RGBA(255, 255,  255, 1);   // white
+    colButtonHover  = RGBA(0,   25,  110, 1);   // darker blue for hover states
+    colBorderLight  = RGBA(200, 220,  240, 1);   // soft border color
+
   Properties:
     OnStart: |-
       =// varSelectedLog: mutable — holds the record a manager taps to view in scrManagerDetail.
