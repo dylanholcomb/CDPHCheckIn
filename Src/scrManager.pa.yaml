@@ -12,41 +12,35 @@ Screens:
       Fill: =RGBA(210, 229, 247, 1)
       LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
       OnVisible: |-
-        =Set(varManagerUPN, Lower(Trim(User().Email)));
-        Set(varToday, Today());
-
-        Clear(colMyEmps);
-
-        ForAll(
-            Filter(
-                'Employee Members',
-                Lower(Trim(ManagerUPN)) = varManagerUPN
-            ) As _items,
-            Collect(
-                colMyEmps,
-                {
-                    EmpName: _items.Name,
-                    EmpUPN: Lower(Trim(_items.UPN)),
-
-                    EmpStatus:
-                        Coalesce(
-                            LookUp(
-                                spo_LogList,
-                                Lower(Trim(EmployeeUPN)) = Lower(Trim(_items.UPN)) &&
-                                Date = varToday,
-                                Status
-                            ).Value,
-                            "No entry today"
-                        ),
-
-                    EmpCheckInTime:
+        =// varUserEmail and varIsManager are named formulas — no Set() needed.
+        // AddColumns avoids the old ForAll+Collect pattern (which ran a separate
+        // LookUp per employee). This is cleaner and easier to read.
+        ClearCollect(
+            colMyEmps,
+            AddColumns(
+                Filter(
+                    'Employee Members',
+                    Lower(Trim(ManagerUPN)) = varUserEmail
+                ),
+                "EmpName", Name,
+                "EmpUPN",  Lower(Trim(UPN)),
+                "EmpStatus",
+                    Coalesce(
                         LookUp(
                             spo_LogList,
-                            Lower(Trim(EmployeeUPN)) = Lower(Trim(_items.UPN)) &&
-                            Date = varToday,
-                            CheckInTime
-                        )
-                }
+                            Lower(Trim(EmployeeUPN)) = Lower(Trim(UPN)) &&
+                            DateValue(Date) = Today(),
+                            Status
+                        ).Value,
+                        "No entry today"
+                    ),
+                "EmpCheckInTime",
+                    LookUp(
+                        spo_LogList,
+                        Lower(Trim(EmployeeUPN)) = Lower(Trim(UPN)) &&
+                        DateValue(Date) = Today(),
+                        CheckInTime
+                    )
             )
         );
     Children:
@@ -146,7 +140,7 @@ Screens:
                         LookUp(
                             spo_LogList,
                             Lower(Trim(EmployeeUPN)) = Lower(Trim(ThisItem.EmpUPN)) &&
-                            Date = varToday
+                            DateValue(Date) = Today()
                         )
                     );
 

@@ -1,66 +1,55 @@
 # ************************************************************************************************
 # Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
 # Use the maker portal to create and edit your Power Apps.
-# 
+#
 # The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
-# 
+#
 # For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
 # ************************************************************************************************
 App:
+  Formulas: |-
+    // ── User identity ──────────────────────────────────────────────────────────────────────────
+    // Trim guards against accidental whitespace in the tenant directory.
+    varUserEmail    = Lower(Trim(User().Email));
+    varUserFullName = User().FullName;
+    varFirstName    = If(
+                          Find(" ", varUserFullName) > 0,
+                          Left(varUserFullName, Find(" ", varUserFullName) - 1),
+                          varUserFullName
+                      );
+
+    // ── Role check ─────────────────────────────────────────────────────────────────────────────
+    varIsManager = CountRows(
+                       Filter(
+                           'Employee Members',
+                           Lower(Trim(ManagerUPN)) = varUserEmail
+                       )
+                   ) > 0;
+
+    // ── Today's log (single source of truth) ───────────────────────────────────────────────────
+    // colToday auto-refreshes whenever spo_LogList is refreshed — no manual ClearCollect needed.
+    // DEV DEPLOYMENT NOTE: spo_LogList resolves to "Daily Log DEV" automatically via the
+    // cdph_spo_LogList environment variable. No code changes required when deploying to DEV.
+    colToday     = Filter(
+                       spo_LogList,
+                       Lower(EmployeeUPN) = varUserEmail && DateValue(Date) = Today()
+                   );
+    varTodayItem = If(IsEmpty(colToday), Blank(), First(colToday));
+
+    // ── Derived state (auto-recalculate from colToday) ─────────────────────────────────────────
+    checkedin  = !IsBlank(varTodayItem.CheckInTime);
+    checkedout = !IsBlank(varTodayItem.CheckOutTime);
+
+    varTotalHours = Coalesce(Value(varTodayItem.Hours),       0) +
+                    Coalesce(Value(varTodayItem.'Hours 2'),   0) +
+                    Coalesce(Value(varTodayItem.'Hours 3'),   0) +
+                    Coalesce(Value(varTodayItem.'Hours 4'),   0) +
+                    Coalesce(Value(varTodayItem.'Hours 5'),   0) +
+                    Coalesce(Value(varTodayItem.'Hours 6'),   0);
+
   Properties:
     OnStart: |-
-      =// Who is the current user (in lower case for comparisons)
-      Set(varUserEmail, Lower(User().Email));
-
-      // Full name and first name
-      Set(varUserFullName, User().FullName);
-      Set(
-          varFirstName,
-          If(
-              // If there's a space, take everything before the first space
-              Find(" ", varUserFullName) > 0,
-              Left(
-                  varUserFullName,
-                  Find(" ", varUserFullName) - 1
-              ),
-              // Otherwise just use the whole name
-              varUserFullName
-          )
-      );
-
-      // ISO-style date string if you want to use it in Title or elsewhere
-      Set(varTodayISO, Text(Today(), "yyyy-MM-dd"));
-
-
-      // Preload today's row (if any) for this user
-      ClearCollect(
-          colToday,
-          Filter(
-              spo_LogList,
-              Lower(EmployeeUPN) = varUserEmail && DateValue(Date) = Today()
-          )
-      );
-
-      // Flags to know if the user has checked in / out today
-      If(
-          CountRows(colToday) = 0,
-          Set(checkedin,  false);
-          Set(checkedout, false),
-          Set(checkedin,  !IsBlank(First(colToday).CheckInTime));
-          Set(checkedout, !IsBlank(First(colToday).CheckOutTime))
-      );
-
-      //To identify Managers
-      Set(
-          varIsManager,
-          CountRows(
-              Filter(
-                  'Employee Members',
-                  Lower(Trim(ManagerUPN)) = Lower(Trim(User().Email))
-              )
-          ) > 0
-      );
-
-      //To help Mitigate Errors
+      =// varSelectedLog: mutable — holds the record a manager taps to view in scrManagerDetail.
+      // All other app-wide values are defined as named formulas above.
       Set(varSelectedLog, Defaults(spo_LogList));
     Theme: =PowerAppsTheme

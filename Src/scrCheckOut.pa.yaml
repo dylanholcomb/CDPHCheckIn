@@ -12,13 +12,8 @@ Screens:
       Fill: =RGBA(204, 231, 246, 1)
       LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
       OnVisible: |-
-        =ClearCollect(
-            colToday,
-            Filter(
-                spo_LogList,
-                Lower(EmployeeUPN) = varUserEmail && DateValue(Date) = Today()
-            )
-        );
+        =// Refresh the data source so colToday (named formula) reflects latest SP data.
+        Refresh(spo_LogList);
     Children:
       - lblNoCheckIn:
           Control: Label@2.5.1
@@ -189,7 +184,8 @@ Screens:
 
                                 Refresh(spo_LogList);
                                 Notify("Check-Out saved.", NotificationType.Success);
-                                Set(checkedout, true);
+
+                                // checkedout auto-updates via App.Formulas after Refresh above.
                                 Navigate(scrHome, ScreenTransition.None)
                             )
                         )

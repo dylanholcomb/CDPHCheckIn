@@ -12,19 +12,12 @@ Screens:
       Fill: =RGBA(153, 207, 236, 1)
       LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
       OnVisible: |-
-        =Refresh(spo_LogList);
+        =// Refresh so colToday (named formula) reflects latest SP data.
+        Refresh(spo_LogList);
 
-        ClearCollect(
-            colToday,
-            Filter(
-                spo_LogList,
-                Lower(EmployeeUPN) = varUserEmail && DateValue(Date) = Today()
-            )
-        );
-
-        // Optional safety gate
+        // Safety gate: send the user back if they have no log row for today.
         If(
-            CountRows(colToday) = 0,
+            IsEmpty(colToday),
             Notify("No Daily Log entry found for today.", NotificationType.Error);
             Back()
         );
@@ -121,15 +114,8 @@ Screens:
                           }
                       );
 
-                      // Refresh local cache so Home reflects latest if needed
+                      // colToday auto-recalculates via App.Formulas after Refresh.
                       Refresh(spo_LogList);
-                      ClearCollect(
-                          colToday,
-                          Filter(
-                              spo_LogList,
-                              Lower(EmployeeUPN) = varUserEmail && DateValue(Date) = Today()
-                          )
-                      );
 
                       Notify("Overtime saved.", NotificationType.Success);
                       Back()

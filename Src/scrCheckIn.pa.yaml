@@ -147,7 +147,7 @@ Screens:
                                     Refresh(spo_LogList);
                                     Notify("Check-In saved.", NotificationType.Success);
 
-                                    Set(checkedin, true);
+                                    // checkedin auto-updates via App.Formulas after Refresh above.
                                     Navigate(scrHome, ScreenTransition.None)
                                 )
                             )

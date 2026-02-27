@@ -3,3 +3,10 @@
 /[Cc]hecksum.json
 /[Hh]eader.json
 /[Aa]pp[Cc]hecker[Rr]esult.sarif
+
+## Auto-generated Power Apps editor state — do not track
+Src/_EditorState.pa.yaml
+
+## macOS system files
+.DS_Store
+**/.DS_Store

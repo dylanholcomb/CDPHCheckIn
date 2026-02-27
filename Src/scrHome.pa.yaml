@@ -12,38 +12,9 @@ Screens:
       Fill: =RGBA(204, 231, 246, 1)
       LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
       OnVisible: |-
-        =Refresh(spo_LogList);
-
-        ClearCollect(
-            colToday,
-            Filter(
-                spo_LogList,
-                Lower(EmployeeUPN) = varUserEmail && DateValue(Date) = Today()
-            )
-        );
-
-        If(
-            CountRows(colToday) = 0,
-            Set(checkedin,  false);
-            Set(checkedout, false),
-            Set(checkedin,  !IsBlank(First(colToday).CheckInTime));
-            Set(checkedout, !IsBlank(First(colToday).CheckOutTime))
-        );
-
-        Set(
-            varTotalHours,
-            If(
-                CountRows(colToday) = 0,
-                0,
-                Coalesce(Value(First(colToday).Hours), 0) +
-                Coalesce(Value(First(colToday).'Hours 2'), 0) +
-                Coalesce(Value(First(colToday).'Hours 3'), 0) +
-                Coalesce(Value(First(colToday).'Hours 4'), 0) +
-                Coalesce(Value(First(colToday).'Hours 5'), 0) +
-                Coalesce(Value(First(colToday).'Hours 6'), 0)
-            )
-        );
-        Set(varTodayItem, If(CountRows(colToday) = 0, Blank(), First(colToday)));
+        =// Refresh the data source so all named formulas (colToday, checkedin,
+        // checkedout, varTodayItem, varTotalHours) auto-recalculate from fresh SP data.
+        Refresh(spo_LogList);
     Children:
       - lblHeader:
           Control: Label@2.5.1
@@ -238,17 +209,8 @@ Screens:
                   { BreakTimeOut: Now() }
               );
 
+              // varTodayItem auto-recalculates via App.Formulas after Refresh.
               Refresh(spo_LogList);
-
-              ClearCollect(
-                  colToday,
-                  Filter(
-                      spo_LogList,
-                      Lower(EmployeeUPN) = varUserEmail && DateValue(Date) = Today()
-                  )
-              );
-
-              Set(varTodayItem, If(CountRows(colToday) = 0, Blank(), First(colToday)));
             PressedBorderColor: =Self.Fill
             PressedColor: =Self.Fill
             PressedFill: =Self.Color
@@ -283,17 +245,8 @@ Screens:
                   { BreakTimeIn: Now() }
               );
 
+              // varTodayItem auto-recalculates via App.Formulas after Refresh.
               Refresh(spo_LogList);
-
-              ClearCollect(
-                  colToday,
-                  Filter(
-                      spo_LogList,
-                      Lower(EmployeeUPN) = varUserEmail && DateValue(Date) = Today()
-                  )
-              );
-
-              Set(varTodayItem, If(CountRows(colToday) = 0, Blank(), First(colToday)));
             PressedBorderColor: =Self.Fill
             PressedColor: =Self.Fill
             PressedFill: =Self.Color
