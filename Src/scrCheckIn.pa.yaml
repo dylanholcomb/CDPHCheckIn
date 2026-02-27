@@ -118,19 +118,19 @@ Screens:
 
                                             CheckInTime: Now(),
 
-                                            Plan:   'Task 1'.Text,
-                                            Plan2:  'Task 2'.Text,
-                                            Plan3:  'Task 3'.Text,
-                                            Plan4:  'Task 4'.Text,
-                                            Plan5:  'Task 5'.Text,
-                                            Plan6:  'Task 6'.Text,
+                                            Plan:     'Task 1'.Text,
+                                            'Plan 2': 'Task 2'.Text,
+                                            'Plan 3': 'Task 3'.Text,
+                                            'Plan 4': 'Task 4'.Text,
+                                            'Plan 5': 'Task 5'.Text,
+                                            'Plan 6': 'Task 6'.Text,
 
-                                            Hours:   _h1,
-                                            Hours2:  _h2,
-                                            Hours3:  _h3,
-                                            Hours4:  _h4,
-                                            Hours5:  _h5,
-                                            Hours6:  _h6,
+                                            Hours:     _h1,
+                                            'Hours 2': _h2,
+                                            'Hours 3': _h3,
+                                            'Hours 4': _h4,
+                                            'Hours 5': _h5,
+                                            'Hours 6': _h6,
 
                                             Status: LookUp(
                                                 Choices(spo_LogList.Status),

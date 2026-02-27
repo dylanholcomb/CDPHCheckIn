@@ -268,9 +268,9 @@ Screens:
                 IsLocked: true
                 Properties:
                   BorderColor: =RGBA(0, 18, 107, 1)
-                  DataField: ="Blockers"
+                  DataField: ="Roadblocks"
                   Default: =ThisItem.Roadblocks
-                  DisplayName: =DataSourceInfo([@spo_LogList],DataSourceInfo.DisplayName,Blockers)
+                  DisplayName: =DataSourceInfo([@spo_LogList],DataSourceInfo.DisplayName,Roadblocks)
                   Required: =false
                   Width: =436
                   X: =0
