@@ -1,0 +1,497 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  scrCheckOut:
+    Properties:
+      Fill: =RGBA(204, 231, 246, 1)
+      LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
+      OnVisible: |-
+        =ClearCollect(
+            colToday,
+            Filter(
+                spo_LogList,
+                Lower(EmployeeUPN) = varUserEmail && DateValue(Date) = Today()
+            )
+        );
+    Children:
+      - lblNoCheckIn:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Font: =Font.'Open Sans'
+            Text: |-
+              =If(
+                  IsEmpty(colToday),
+              "No Check In Found For Today.",
+              ""
+              )
+            Visible: =IsEmpty(colToday)
+            Width: =257
+            X: =1096
+            Y: =642
+      - CheckOutHoursTotals:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Font: =Font.Arial
+            Height: =30
+            Size: =20
+            Text: |-
+              ="Total hours: " &
+              Text(
+                  Sum(
+                      Table(
+                          { H: Coalesce(Value(inpActual_1.Text), 0) },
+                          { H: Coalesce(Value(inpActual_2.Text), 0) },
+                          { H: Coalesce(Value(inpActual_3.Text), 0) },
+                          { H: Coalesce(Value(inpActual_4.Text), 0) },
+                          { H: Coalesce(Value(inpActual_5.Text), 0) },
+                          { H: Coalesce(Value(inpActual_6.Text), 0) }
+                      ),
+                      H
+                  ),
+                  "0.00"
+              )
+            Width: =259
+            X: =883
+            Y: =620
+      - Label1:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Font: =Font.Arial
+            Size: =20
+            Text: |-
+              ="Comments
+              "
+            X: =597
+            Y: =620
+      - Container6:
+          Control: GroupContainer@1.4.0
+          Variant: ManualLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Height: =113
+            Width: =1289
+            X: =30
+            Y: =642
+          Children:
+            - backButton:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderColor: =ColorFade(Self.Fill, -15%)
+                  Color: =RGBA(255, 255, 255, 1)
+                  DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                  Fill: =RGBA(56, 96, 178, 1)
+                  Font: =Font.Arial
+                  Height: =70
+                  HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
+                  HoverColor: =RGBA(255, 255, 255, 1)
+                  HoverFill: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+                  OnSelect: =Back()
+                  PressedBorderColor: =Self.Fill
+                  PressedColor: =Self.Fill
+                  PressedFill: =Self.Color
+                  Size: =20
+                  Text: ="Back"
+                  Width: =173
+                  Y: =43
+            - btnCheck-out:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderColor: =ColorFade(Self.Fill, -15%)
+                  Color: =RGBA(255, 255, 255, 1)
+                  DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                  Fill: =RGBA(56, 96, 178, 1)
+                  Font: =Font.Arial
+                  Height: =backButton.Height
+                  HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
+                  HoverColor: =RGBA(255, 255, 255, 1)
+                  HoverFill: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+                  OnSelect: |-
+                    =If(
+                        // 1) Validate actual hours are numeric
+                        !IsNumeric(inpActual_1.Text) ||
+                        !IsNumeric(inpActual_2.Text) ||
+                        !IsNumeric(inpActual_3.Text) ||
+                        !IsNumeric(inpActual_4.Text) ||
+                        !IsNumeric(inpActual_5.Text) ||
+                        !IsNumeric(inpActual_6.Text),
+
+                        Notify(
+                            "Please enter numeric values for all actual hours (use 0 if not applicable).",
+                            NotificationType.Error
+                        ),
+
+                        // 2) Once validated, convert to numbers and proceed
+                        With(
+                            {
+                                _co: LookUp(
+                                    spo_LogList,
+                                    Lower(EmployeeUPN) = varUserEmail && DateValue(Date) = Today()
+                                ),
+                                _a1: Value(inpActual_1.Text),
+                                _a2: Value(inpActual_2.Text),
+                                _a3: Value(inpActual_3.Text),
+                                _a4: Value(inpActual_4.Text),
+                                _a5: Value(inpActual_5.Text),
+                                _a6: Value(inpActual_6.Text)
+                            },
+                            If(
+                                // No row yet? Block checkout and alert.
+                                IsBlank(_co),
+
+                                Notify(
+                                    "No check-in found for today. Please complete your check-in before checking out.",
+                                    NotificationType.Error
+                                ),
+
+                                // Normal path: update today's row with summary + actual hours + roadblocks
+                                Patch(
+                                    spo_LogList,
+                                    _co,
+                                    {
+                                        // Summary text (user-edited on scrCheckOut)
+                                        CheckoutText:   inpTask1.Text,
+                                        CheckoutText2:  inpTask2.Text,
+                                        CheckoutText3:  InpTask3.Text,
+                                        CheckoutText4:  inpTask4.Text,
+                                        CheckOutText5:  inpTask5.Text,
+                                        CheckOutText6:  inpTask6.Text,
+
+                                        // Actual hours (user-entered on scrCheckOut)
+                                        CheckOutHours:   _a1,
+                                        CheckOutHours2:  _a2,
+                                        CheckOutHours3:  _a3,
+                                        CheckOutHours4:  _a4,
+                                        CheckOutHours5:  _a5,
+                                        CheckOutHours6:  _a6,
+
+                                        // Roadblocks
+                                        Roadblocks: inpRoadblocks.Text,
+
+                                        Status: LookUp(
+                                            Choices(spo_LogList.Status),
+                                            Value = "Checked Out"
+                                        ),
+
+                                        CheckOutTime: Now()
+                                    }
+                                );
+
+                                Refresh(spo_LogList);
+                                Notify("Check-Out saved.", NotificationType.Success);
+                                Set(checkedout, true);
+                                Navigate(scrHome, ScreenTransition.None)
+                            )
+                        )
+                    );
+                  PressedBorderColor: =Self.Fill
+                  PressedColor: =Self.Fill
+                  PressedFill: =Self.Color
+                  Size: =20
+                  TabIndex: =13
+                  Text: ="Check-Out"
+                  Width: =backButton.Width
+                  X: =1116
+                  Y: =43
+            - inpRoadblocks:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Default: |-
+                    =If(
+                        IsEmpty(colToday),
+                        "",
+                        Coalesce(First(colToday).Roadblocks, "")
+                    )
+                  Font: =Font.Arial
+                  Height: =82
+                  HintText: ="Describe anything that prevented you from reaching your stated daily goals"
+                  HoverBorderColor: =RGBA(0, 18, 107, 1)
+                  HoverFill: =RGBA(186, 202, 226, 1)
+                  Mode: =TextMode.MultiLine
+                  Size: =20
+                  TabIndex: =12
+                  Width: =572
+                  X: =358
+                  Y: =31
+      - Container5:
+          Control: GroupContainer@1.4.0
+          Variant: ManualLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Height: =442
+            Width: =613
+            X: =706
+            Y: =156
+          Children:
+            - inpActual_6:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Default: |-
+                    =If(
+                        IsEmpty(colToday),
+                        "",
+                        Text(First(colToday).'Hours 6', "0.0")
+                    )
+                  Font: =Font.Arial
+                  Height: =inpActual_1.Height
+                  HintText: ="Act. Hours"
+                  HoverBorderColor: =RGBA(0, 18, 107, 1)
+                  HoverFill: =RGBA(186, 202, 226, 1)
+                  Size: =20
+                  TabIndex: =11
+                  Width: =inpActual_1.Width
+                  X: =466
+                  Y: =389
+            - inpTask6:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Default: |-
+                    =If(
+                        IsEmpty(colToday),
+                        "",
+                            Coalesce(First(colToday).'Plan 6', "") &
+                            "  (" & Text(First(colToday).'Hours 6', "0.0") & " hrs)"
+                    )
+                  Font: =Font.Arial
+                  Height: =inpTask1.Height
+                  HoverBorderColor: =RGBA(0, 18, 107, 1)
+                  HoverFill: =RGBA(186, 202, 226, 1)
+                  Mode: =TextMode.MultiLine
+                  Size: =20
+                  TabIndex: =10
+                  Width: =inpTask1.Width
+                  Y: =329
+            - inpActual_5:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Default: |-
+                    =If(
+                        IsEmpty(colToday),
+                        "",
+                        Text(First(colToday).'Hours 5', "0.0")
+                    )
+                  Font: =Font.Arial
+                  Height: =inpActual_1.Height
+                  HintText: ="Act. Hours"
+                  HoverBorderColor: =RGBA(0, 18, 107, 1)
+                  HoverFill: =RGBA(186, 202, 226, 1)
+                  Size: =20
+                  TabIndex: =9
+                  Width: =inpActual_1.Width
+                  X: =466
+                  Y: =222
+            - inpTask5:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Default: |-
+                    =If(
+                        IsEmpty(colToday),
+                        "",
+                            Coalesce(First(colToday).'Plan 5', "") &
+                            "  (" & Text(First(colToday).'Hours 5', "0.0") & " hrs)"
+                    )
+                  Font: =Font.Arial
+                  Height: =inpTask1.Height
+                  HoverBorderColor: =RGBA(0, 18, 107, 1)
+                  HoverFill: =RGBA(186, 202, 226, 1)
+                  Mode: =TextMode.MultiLine
+                  Size: =20
+                  TabIndex: =8
+                  Width: =inpTask1.Width
+                  Y: =162
+            - inpActual_4:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Default: |-
+                    =If(
+                        IsEmpty(colToday),
+                        "",
+                        Text(First(colToday).'Hours 4', "0.0")
+                    )
+                  Font: =Font.Arial
+                  Height: =inpActual_1.Height
+                  HintText: ="Act. Hours"
+                  HoverBorderColor: =RGBA(0, 18, 107, 1)
+                  HoverFill: =RGBA(186, 202, 226, 1)
+                  Size: =20
+                  TabIndex: =7
+                  Width: =inpActual_1.Width
+                  X: =466
+                  Y: =60
+            - inpTask4:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Default: |-
+                    =If(
+                        IsEmpty(colToday),
+                        "",
+                            Coalesce(First(colToday).'Plan 4', "") &
+                            "  (" & Text(First(colToday).'Hours 4', "0.0") & " hrs)"
+                    )
+                  Font: =Font.Arial
+                  Height: =inpTask1.Height
+                  HoverBorderColor: =RGBA(0, 18, 107, 1)
+                  HoverFill: =RGBA(186, 202, 226, 1)
+                  Mode: =TextMode.MultiLine
+                  Size: =20
+                  TabIndex: =6
+                  Width: =inpTask1.Width
+      - Container4:
+          Control: GroupContainer@1.4.0
+          Variant: ManualLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Height: =447
+            Width: =609
+            X: =30
+            Y: =151
+          Children:
+            - inpActual_3:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Default: |-
+                    =If(
+                        IsEmpty(colToday),
+                        "",
+                        Text(First(colToday).'Hours 3', "0.0")
+                    )
+                  Font: =Font.Arial
+                  Height: =inpActual_1.Height
+                  HintText: ="Act Hours"
+                  HoverBorderColor: =RGBA(0, 18, 107, 1)
+                  HoverFill: =RGBA(186, 202, 226, 1)
+                  Size: =20
+                  TabIndex: =5
+                  Width: =inpActual_1.Width
+                  X: =462
+                  Y: =394
+            - InpTask3:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Default: |-
+                    =If(
+                        IsEmpty(colToday),
+                        "",
+                            Coalesce(First(colToday).'Plan 3', "") &
+                            "  (" & Text(First(colToday).'Hours 3', "0.0") & " hrs)"
+                    )
+                  Font: =Font.Arial
+                  Height: =inpTask1.Height
+                  HoverBorderColor: =RGBA(0, 18, 107, 1)
+                  HoverFill: =RGBA(186, 202, 226, 1)
+                  Mode: =TextMode.MultiLine
+                  Size: =20
+                  TabIndex: =4
+                  Width: =inpTask1.Width
+                  Y: =334
+            - inpActual_2:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Default: |-
+                    =If(
+                        IsEmpty(colToday),
+                        "",
+                        Text(First(colToday).'Hours 2', "0.0")
+                    )
+                  Font: =Font.Arial
+                  Height: =inpActual_1.Height
+                  HintText: ="Act. Hours"
+                  HoverBorderColor: =RGBA(0, 18, 107, 1)
+                  HoverFill: =RGBA(186, 202, 226, 1)
+                  Size: =20
+                  TabIndex: =3
+                  Width: =inpActual_1.Width
+                  X: =462
+                  Y: =228
+            - inpTask2:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Default: |-
+                    =If(
+                        IsEmpty(colToday),
+                        "",
+                            Coalesce(First(colToday).'Plan 2', "") &
+                            "  (" & Text(First(colToday).'Hours 2', "0.0") & " hrs)"
+                    )
+                  Font: =Font.Arial
+                  Height: =inpTask1.Height
+                  HoverBorderColor: =RGBA(0, 18, 107, 1)
+                  HoverFill: =RGBA(186, 202, 226, 1)
+                  Mode: =TextMode.MultiLine
+                  Size: =20
+                  TabIndex: =2
+                  Width: =inpTask1.Width
+                  Y: =168
+            - inpActual_1:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Default: |-
+                    =If(
+                        IsEmpty(colToday),
+                        "",
+                        Text(First(colToday).Hours, "0.0")
+                    )
+                  Font: =Font.Arial
+                  Height: =53
+                  HintText: ="Act. Hours"
+                  HoverBorderColor: =RGBA(0, 18, 107, 1)
+                  HoverFill: =RGBA(186, 202, 226, 1)
+                  Size: =20
+                  TabIndex: =1
+                  Width: =147
+                  X: =462
+                  Y: =63
+            - inpTask1:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Default: |-
+                    =If(
+                        IsEmpty(colToday),
+                        "",
+                            Coalesce(First(colToday).Plan, "") &
+                            "  (" & Text(First(colToday).Hours, "0.0") & " hrs)"
+                    )
+                  Font: =Font.Arial
+                  Height: =113
+                  HoverBorderColor: =RGBA(0, 18, 107, 1)
+                  HoverFill: =RGBA(186, 202, 226, 1)
+                  Mode: =TextMode.MultiLine
+                  Size: =20
+                  Width: =434
+                  X: =2
+                  Y: =3
+      - lblWelcomeMessage:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Font: =Font.Arial
+            Height: =136
+            Size: =25
+            Text: ="Please review your daily assignments/tasks in the spaces provided and the actual time used, per task."
+            Width: =803
+            X: =264
+            Y: =15

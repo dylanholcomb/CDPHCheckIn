@@ -1,0 +1,487 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  scrCheckIn:
+    Properties:
+      Fill: =RGBA(153, 207, 236, 1)
+      LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
+      OnVisible: |+
+        =Set(
+            varPrevLog,
+            First(
+                SortByColumns(
+                    Filter(
+                        spo_LogList,
+                        Lower(EmployeeUPN) = Lower(varUserEmail) &&
+                        DateValue(Date) < Today()
+                    ),
+                    "Date",
+                    SortOrder.Descending
+                )
+            )
+        );
+    Children:
+      - Container3:
+          Control: GroupContainer@1.4.0
+          Variant: ManualLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Height: =97
+            Width: =1072
+            X: =142
+            Y: =630
+          Children:
+            - Back Button:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderColor: =ColorFade(Self.Fill, -15%)
+                  Color: =RGBA(255, 255, 255, 1)
+                  DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                  Fill: =RGBA(56, 96, 178, 1)
+                  Font: =Font.Arial
+                  Height: =78
+                  HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
+                  HoverColor: =RGBA(255, 255, 255, 1)
+                  HoverFill: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+                  OnSelect: =Back()
+                  PressedBorderColor: =Self.Fill
+                  PressedColor: =Self.Fill
+                  PressedFill: =Self.Color
+                  Size: =18
+                  TabIndex: =12
+                  Text: ="Back"
+                  Tooltip: ="Click Here To Go Back"
+                  Width: =215
+                  Y: =7
+            - btnCheck-In:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderColor: =ColorFade(Self.Fill, -15%)
+                  Color: =RGBA(255, 255, 255, 1)
+                  DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                  Fill: =RGBA(56, 96, 178, 1)
+                  Font: =Font.Arial
+                  Height: =78
+                  HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
+                  HoverColor: =RGBA(255, 255, 255, 1)
+                  HoverFill: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+                  OnSelect: |
+                    =If(
+                        // 1) Basic validation: all hour fields must be numeric
+                        !IsNumeric('Task 1 Hours'.Text) ||
+                        !IsNumeric('Task 2 Hours'.Text) ||
+                        !IsNumeric('Task 3 Hours'.Text) ||
+                        !IsNumeric('Task 4 Hours'.Text) ||
+                        !IsNumeric('Task 5 Hours'.Text) ||
+                        !IsNumeric('Task 6 Hours'.Text),
+
+                        Notify(
+                            "Please enter numeric values for all hours (use 0 if not applicable).",
+                            NotificationType.Error
+                        ),
+
+                        // 2) Now that we KNOW they're numeric, we can safely convert and sum
+                        With(
+                            {
+                                _h1: Value('Task 1 Hours'.Text),
+                                _h2: Value('Task 2 Hours'.Text),
+                                _h3: Value('Task 3 Hours'.Text),
+                                _h4: Value('Task 4 Hours'.Text),
+                                _h5: Value('Task 5 Hours'.Text),
+                                _h6: Value('Task 6 Hours'.Text)
+                            },
+                            If(
+                                // Total hours > 8? Stop and alert.
+                                (_h1 + _h2 + _h3 + _h4 + _h5 + _h6) > 8,
+                                Notify(
+                                    "Total hours for all tasks cannot exceed 8. Please adjust your entries.",
+                                    NotificationType.Error
+                                ),
+
+                                // 3) Otherwise proceed with create/update as before
+                                With(
+                                    {
+                                        _row: LookUp(
+                                            spo_LogList,
+                                            Lower(EmployeeUPN) = varUserEmail && DateValue(Date) = Today()
+                                        ),
+                                        _payload: {
+                                            EmployeeUPN: varUserEmail,
+                                            Date: Today(),
+                                            Title: varUserEmail,
+
+                                            CheckInTime: Now(),
+
+                                            Plan:   'Task 1'.Text,
+                                            Plan2:  'Task 2'.Text,
+                                            Plan3:  'Task 3'.Text,
+                                            Plan4:  'Task 4'.Text,
+                                            Plan5:  'Task 5'.Text,
+                                            Plan6:  'Task 6'.Text,
+
+                                            Hours:   _h1,
+                                            Hours2:  _h2,
+                                            Hours3:  _h3,
+                                            Hours4:  _h4,
+                                            Hours5:  _h5,
+                                            Hours6:  _h6,
+
+                                            Status: LookUp(
+                                                Choices(spo_LogList.Status),
+                                                Value = "Checked In"
+                                            )
+                                        }
+                                    },
+                                    If(
+                                        IsBlank(_row),
+                                        Patch(spo_LogList, Defaults(spo_LogList), _payload),
+                                        Patch(spo_LogList, _row, _payload)
+                                    );
+
+                                    Refresh(spo_LogList);
+                                    Notify("Check-In saved.", NotificationType.Success);
+
+                                    Set(checkedin, true);
+                                    Navigate(scrHome, ScreenTransition.None)
+                                )
+                            )
+                        )
+                    );
+                  PressedBorderColor: =Self.Fill
+                  PressedColor: =Self.Fill
+                  PressedFill: =Self.Color
+                  Size: =18
+                  TabIndex: =13
+                  Text: ="Check-In"
+                  Tooltip: ="Click Here To Save Check In"
+                  Width: =206
+                  X: =866
+                  Y: =7
+      - Container2:
+          Control: GroupContainer@1.4.0
+          Variant: ManualLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Height: =361
+            Width: =523
+            X: =691
+            Y: =227
+          Children:
+            - Task 6 Hours:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Default: |-
+                    =Coalesce(
+                        varPrevLog.'Hours 6',
+                        ""
+                    )
+                  Font: =Font.Arial
+                  Format: =TextFormat.Number
+                  Height: ='Task 1 Hours'.Height
+                  HintText: ="Est. Hours"
+                  HoverBorderColor: =RGBA(0, 18, 107, 1)
+                  HoverFill: =RGBA(186, 202, 226, 1)
+                  Size: =20
+                  Tooltip: ="Type Here Your Estimated Hours For Task 6"
+                  Width: ='Task 1 Hours'.Width
+                  X: =377
+                  Y: =319
+            - Task 6:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(0, 94, 146, 1)
+                  Clear: =true
+                  Default: |-
+                    =Coalesce(
+                        varPrevLog.CheckOutText6,
+                        varPrevLog.'Plan 6',
+                        ""
+                    )
+                  Font: =Font.Arial
+                  Height: ='Task 1'.Height
+                  HintText: ="Estimated Task 6"
+                  HoverBorderColor: =RGBA(0, 18, 107, 1)
+                  HoverFill: =RGBA(186, 202, 226, 1)
+                  Mode: =TextMode.MultiLine
+                  PaddingLeft: =5
+                  Size: =20
+                  Tooltip: ="Type Here To Describe Estimated Task 6"
+                  Width: ='Task 1'.Width
+                  Y: =250
+            - Task 5 Hours:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Default: |-
+                    =Coalesce(
+                        varPrevLog.'Hours 5',
+                        ""
+                    )
+                  Font: =Font.Arial
+                  Format: =TextFormat.Number
+                  Height: ='Task 1 Hours'.Height
+                  HintText: ="Est. Hours"
+                  HoverBorderColor: =RGBA(0, 18, 107, 1)
+                  HoverFill: =RGBA(186, 202, 226, 1)
+                  Size: =20
+                  Tooltip: ="Type Here Your Estimated Hours For Task 5"
+                  Width: ='Task 1 Hours'.Width
+                  X: =377
+                  Y: =194
+            - Task 5:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(0, 94, 146, 1)
+                  Clear: =true
+                  Default: |-
+                    =Coalesce(
+                        varPrevLog.CheckOutText5,
+                        varPrevLog.'Plan 5',
+                        ""
+                    )
+                  Font: =Font.Arial
+                  Height: ='Task 1'.Height
+                  HintText: ="Estimated Task 5"
+                  HoverBorderColor: =RGBA(0, 18, 107, 1)
+                  HoverFill: =RGBA(186, 202, 226, 1)
+                  Mode: =TextMode.MultiLine
+                  PaddingLeft: =5
+                  Size: =20
+                  Tooltip: ="Type Here To Describe Estimated Task 5"
+                  Width: ='Task 1'.Width
+                  Y: =125
+            - Task 4 Hours:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Default: |-
+                    =Coalesce(
+                        varPrevLog.'Hours 4',
+                        ""
+                    )
+                  Font: =Font.Arial
+                  Format: =TextFormat.Number
+                  Height: ='Task 1 Hours'.Height
+                  HintText: ="Est. Hours"
+                  HoverBorderColor: =RGBA(0, 18, 107, 1)
+                  HoverFill: =RGBA(186, 202, 226, 1)
+                  Size: =20
+                  Tooltip: ="Type Here Your Estimated Hours For Task 4"
+                  Width: ='Task 1 Hours'.Width
+                  X: =377
+                  Y: =69
+            - Task 4:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(0, 94, 146, 1)
+                  Clear: =true
+                  Default: |-
+                    =Coalesce(
+                        varPrevLog.CheckoutText4,
+                        varPrevLog.'Plan 4',
+                        ""
+                    )
+                  Font: =Font.Arial
+                  Height: ='Task 1'.Height
+                  HintText: ="Estimated Task 4"
+                  HoverBorderColor: =RGBA(0, 18, 107, 1)
+                  HoverFill: =RGBA(186, 202, 226, 1)
+                  Mode: =TextMode.MultiLine
+                  PaddingLeft: =5
+                  Size: =20
+                  Tooltip: ="Type Here To Describe Estimated Task 4"
+                  Width: ='Task 1'.Width
+      - Container1:
+          Control: GroupContainer@1.4.0
+          Variant: ManualLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Height: =361
+            Width: =526
+            X: =142
+            Y: =227
+          Children:
+            - Task 3 Hours:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Default: |-
+                    =Coalesce(
+                        varPrevLog.'Hours 3',
+                        ""
+                    )
+                  Font: =Font.Arial
+                  Format: =TextFormat.Number
+                  Height: ='Task 1 Hours'.Height
+                  HintText: ="Est. Hours 3"
+                  HoverBorderColor: =RGBA(0, 18, 107, 1)
+                  HoverFill: =RGBA(186, 202, 226, 1)
+                  Size: =20
+                  Tooltip: ="Type Here Your Estimated Hours For Task 3"
+                  Width: ='Task 1 Hours'.Width
+                  X: =380
+                  Y: =319
+            - Task 3:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(0, 94, 146, 1)
+                  Clear: =true
+                  Default: |-
+                    =Coalesce(
+                        varPrevLog.CheckoutText3,
+                        varPrevLog.'Plan 3',
+                        ""
+                    )
+                  Font: =Font.Arial
+                  Height: ='Task 1'.Height
+                  HintText: ="Estimated Task 3"
+                  HoverBorderColor: =RGBA(0, 18, 107, 1)
+                  HoverFill: =RGBA(186, 202, 226, 1)
+                  Mode: =TextMode.MultiLine
+                  PaddingLeft: =5
+                  Size: =20
+                  Tooltip: ="Type Here To Describe Estimated Task 3"
+                  Width: ='Task 1'.Width
+                  Y: =250
+            - Task 2 Hours:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Default: |-
+                    =Coalesce(
+                        varPrevLog.'Hours 2',
+                        ""
+                    )
+                  Font: =Font.Arial
+                  Format: =TextFormat.Number
+                  Height: ='Task 1 Hours'.Height
+                  HintText: ="Est. Hours 2"
+                  HoverBorderColor: =RGBA(0, 18, 107, 1)
+                  HoverFill: =RGBA(186, 202, 226, 1)
+                  Size: =20
+                  Tooltip: ="Type Here Your Estimated Hours For Task 2"
+                  Width: ='Task 1 Hours'.Width
+                  X: =380
+                  Y: =194
+            - Task 2:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(0, 94, 146, 1)
+                  Clear: =true
+                  Default: |-
+                    =Coalesce(
+                        varPrevLog.CheckoutText2,
+                        varPrevLog.'Plan 2',
+                        ""
+                    )
+                  Font: =Font.Arial
+                  Height: ='Task 1'.Height
+                  HintText: ="Estimated Task 2"
+                  HoverBorderColor: =RGBA(0, 18, 107, 1)
+                  HoverFill: =RGBA(186, 202, 226, 1)
+                  Mode: =TextMode.MultiLine
+                  PaddingLeft: =5
+                  Size: =20
+                  Tooltip: ="Type Here To Describe Estimated Task 2"
+                  Width: ='Task 1'.Width
+                  Y: =125
+            - Task 1 Hours:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Default: |-
+                    =Coalesce(
+                        varPrevLog.Hours,
+                        ""
+                    )
+                  Font: =Font.Arial
+                  Format: =TextFormat.Number
+                  Height: =42
+                  HintText: ="Est. Hours"
+                  HoverBorderColor: =RGBA(0, 18, 107, 1)
+                  HoverFill: =RGBA(186, 202, 226, 1)
+                  Size: =20
+                  Tooltip: ="Type Here Your Estimated Hours For Task 1"
+                  Width: =146
+                  X: =380
+                  Y: =69
+            - Task 1:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(0, 94, 146, 1)
+                  Clear: =true
+                  Default: |-
+                    =Coalesce(
+                        varPrevLog.CheckoutText,
+                        varPrevLog.Plan,
+                        ""
+                    )
+                  Font: =Font.Arial
+                  Height: =111
+                  HintText: ="Estimated Task 1"
+                  HoverBorderColor: =RGBA(0, 18, 107, 1)
+                  HoverFill: =RGBA(186, 202, 226, 1)
+                  Mode: =TextMode.MultiLine
+                  PaddingLeft: =5
+                  Size: =20
+                  Tooltip: ="Type Here To Describe Estimated Task 1"
+                  Width: =361
+      - lblDirections:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Font: =Font.Arial
+            FontWeight: =FontWeight.Lighter
+            Height: =191
+            Size: =25
+            Text: |-
+              ="Please enter your daily assignments/tasks in the spaces provided 
+              and the associated time needed, per task. 
+              "
+            Width: =1305
+            X: =26
+            Y: =12
+      - CheckinHoursTotals:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Font: =Font.Arial
+            Height: =30
+            Size: =20
+            Text: |-
+              =If(
+                  IsBlank('Task 1 Hours'.Text) &&
+                  IsBlank('Task 2 Hours'.Text) &&
+                  IsBlank('Task 3 Hours'.Text) &&
+                  IsBlank('Task 4 Hours'.Text) &&
+                  IsBlank('Task 5 Hours'.Text) &&
+                  IsBlank('Task 6 Hours'.Text),
+                  "",
+                  "Total hours: " &
+                      Text(
+                          Sum(
+                              Table(
+                                  { H: Coalesce(Value('Task 1 Hours'.Text), 0) },
+                                  { H: Coalesce(Value('Task 2 Hours'.Text), 0) },
+                                  { H: Coalesce(Value('Task 3 Hours'.Text), 0) },
+                                  { H: Coalesce(Value('Task 4 Hours'.Text), 0) },
+                                  { H: Coalesce(Value('Task 5 Hours'.Text), 0) },
+                                  { H: Coalesce(Value('Task 6 Hours'.Text), 0) }
+                              ),
+                              H
+                          ),
+                          "0.00"
+                      )
+              )
+            Width: =259
+            X: =549
+            Y: =616

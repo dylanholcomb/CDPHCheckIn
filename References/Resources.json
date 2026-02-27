@@ -1,0 +1,40 @@
+{
+  "Resources": [
+    {
+      "Name": "SampleImage",
+      "Schema": "i",
+      "IsSampleData": true,
+      "IsWritable": false,
+      "Type": "ResourceInfo",
+      "FileName": "/ctrllib/image/images/SampleImage.svg",
+      "Path": "/ctrllib/image/images/SampleImage.svg",
+      "Content": "Image",
+      "ResourceKind": "Uri",
+      "RootPath": "ms-appx:///ctrllib/image/images/SampleImage.svg"
+    },
+    {
+      "Name": "primary-rgb-full-color (1)",
+      "Schema": "i",
+      "IsSampleData": false,
+      "IsWritable": false,
+      "Type": "ResourceInfo",
+      "FileName": "a7492544-52b0-41be-a396-608e8d6dbc71.png",
+      "Path": "Assets\\Images\\a7492544-52b0-41be-a396-608e8d6dbc71.png",
+      "Content": "Image",
+      "ResourceKind": "LocalFile",
+      "RootPath": "https://dsgovil101ugtx.blob.core.usgovcloudapi.net/55f46113-5d4e-4f8d-823e-9c04284b02e7-1/resource/YTc0OTI1NDQtNTJiMC00MWJlLWEzOTYtNjA4ZThkNmRiYzcx.png?skoid=bbd92e1b-73d8-4b7a-8e91-5ae631955a06&sktid=cab8a31a-1906-4287-a0d8-4eef66b95f6e&skt=2026-02-26T18%3A40%3A20Z&ske=2026-02-27T18%3A55%3A20Z&sks=b&skv=2023-01-03&sv=2023-01-03&spr=https&se=2026-02-27T18%3A55%3A20Z&sr=b&sp=r&sig=XaPM0OzZqtTJeX98DRos1ir5ZKc97duz0ZEd5svs6AE%3D"
+    },
+    {
+      "Name": "primary-rgb-full-color (1)_1",
+      "Schema": "i",
+      "IsSampleData": false,
+      "IsWritable": false,
+      "Type": "ResourceInfo",
+      "FileName": "8c175dcc-e459-4bbe-b359-6ed199d3b429.png",
+      "Path": "Assets\\Images\\8c175dcc-e459-4bbe-b359-6ed199d3b429.png",
+      "Content": "Image",
+      "ResourceKind": "LocalFile",
+      "RootPath": "https://dsgovil101ugtx.blob.core.usgovcloudapi.net/55f46113-5d4e-4f8d-823e-9c04284b02e7-1/resource/OGMxNzVkY2MtZTQ1OS00YmJlLWIzNTktNmVkMTk5ZDNiNDI5.png?skoid=bbd92e1b-73d8-4b7a-8e91-5ae631955a06&sktid=cab8a31a-1906-4287-a0d8-4eef66b95f6e&skt=2026-02-26T18%3A40%3A20Z&ske=2026-02-27T18%3A55%3A20Z&sks=b&skv=2023-01-03&sv=2023-01-03&spr=https&se=2026-02-27T18%3A55%3A20Z&sr=b&sp=r&sig=eXJN7Jd0sj%2FDII5pfwSultvYaG4aRqlv2XA0vT9Ki%2FE%3D"
+    }
+  ]
+}
