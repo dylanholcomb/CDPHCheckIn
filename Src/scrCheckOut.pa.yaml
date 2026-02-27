@@ -272,8 +272,7 @@ Screens:
                     =If(
                         IsEmpty(colToday),
                         "",
-                            Coalesce(First(colToday).'Plan 6', "") &
-                            "  (" & Text(First(colToday).'Hours 6', "0.0") & " hrs)"
+                        Coalesce(First(colToday).'Plan 6', "")
                     )
                   Font: =Font.Arial
                   Height: =inpTask1.Height
@@ -312,8 +311,7 @@ Screens:
                     =If(
                         IsEmpty(colToday),
                         "",
-                            Coalesce(First(colToday).'Plan 5', "") &
-                            "  (" & Text(First(colToday).'Hours 5', "0.0") & " hrs)"
+                        Coalesce(First(colToday).'Plan 5', "")
                     )
                   Font: =Font.Arial
                   Height: =inpTask1.Height
@@ -352,8 +350,7 @@ Screens:
                     =If(
                         IsEmpty(colToday),
                         "",
-                            Coalesce(First(colToday).'Plan 4', "") &
-                            "  (" & Text(First(colToday).'Hours 4', "0.0") & " hrs)"
+                        Coalesce(First(colToday).'Plan 4', "")
                     )
                   Font: =Font.Arial
                   Height: =inpTask1.Height
@@ -401,8 +398,7 @@ Screens:
                     =If(
                         IsEmpty(colToday),
                         "",
-                            Coalesce(First(colToday).'Plan 3', "") &
-                            "  (" & Text(First(colToday).'Hours 3', "0.0") & " hrs)"
+                        Coalesce(First(colToday).'Plan 3', "")
                     )
                   Font: =Font.Arial
                   Height: =inpTask1.Height
@@ -441,8 +437,7 @@ Screens:
                     =If(
                         IsEmpty(colToday),
                         "",
-                            Coalesce(First(colToday).'Plan 2', "") &
-                            "  (" & Text(First(colToday).'Hours 2', "0.0") & " hrs)"
+                        Coalesce(First(colToday).'Plan 2', "")
                     )
                   Font: =Font.Arial
                   Height: =inpTask1.Height
@@ -481,8 +476,7 @@ Screens:
                     =If(
                         IsEmpty(colToday),
                         "",
-                            Coalesce(First(colToday).Plan, "") &
-                            "  (" & Text(First(colToday).Hours, "0.0") & " hrs)"
+                        Coalesce(First(colToday).Plan, "")
                     )
                   Font: =Font.Arial
                   Height: =113

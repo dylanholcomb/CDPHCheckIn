@@ -193,6 +193,7 @@ Screens:
                   BorderColor: =RGBA(0, 18, 107, 1)
                   Default: |-
                     =Coalesce(
+                        varPrevLog.CheckOutHours6,
                         varPrevLog.'Hours 6',
                         ""
                     )
@@ -235,6 +236,7 @@ Screens:
                   BorderColor: =RGBA(0, 18, 107, 1)
                   Default: |-
                     =Coalesce(
+                        varPrevLog.CheckOutHours5,
                         varPrevLog.'Hours 5',
                         ""
                     )
@@ -277,6 +279,7 @@ Screens:
                   BorderColor: =RGBA(0, 18, 107, 1)
                   Default: |-
                     =Coalesce(
+                        varPrevLog.CheckOutHours4,
                         varPrevLog.'Hours 4',
                         ""
                     )
@@ -328,6 +331,7 @@ Screens:
                   BorderColor: =RGBA(0, 18, 107, 1)
                   Default: |-
                     =Coalesce(
+                        varPrevLog.CheckOutHours3,
                         varPrevLog.'Hours 3',
                         ""
                     )
@@ -370,6 +374,7 @@ Screens:
                   BorderColor: =RGBA(0, 18, 107, 1)
                   Default: |-
                     =Coalesce(
+                        varPrevLog.CheckOutHours2,
                         varPrevLog.'Hours 2',
                         ""
                     )
@@ -412,6 +417,7 @@ Screens:
                   BorderColor: =RGBA(0, 18, 107, 1)
                   Default: |-
                     =Coalesce(
+                        varPrevLog.CheckOutHours,
                         varPrevLog.Hours,
                         ""
                     )
