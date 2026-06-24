@@ -10,3 +10,19 @@ Src/_EditorState.pa.yaml
 ## macOS system files
 .DS_Store
 **/.DS_Store
+.AppleDouble
+.LSOverride
+
+## Office temp files
+~$*
+
+## Scratch / working files not part of the solution
+RAG 1.docx
+Up To Date For CoPilot.docx
+Chatbot Conversational FAQ Responses - Microsoft Licensing.pdf
+Chatbot Discovery Question Framework.pdf
+Microsoft Licensing Knowledge Base - Structured Summaries & Decision Trees.pdf
+
+## NOTE: CSV data files contain real employee PII.
+## Committed here as schema reference only — do NOT push to a public repo.
+## Consider moving live data management to SharePoint only.

@@ -1,0 +1,45 @@
+// 1) Environment values (handy later for flows/promotion)
+Set(varSiteUrl,   EnvironmentVariableValue("SPO_SiteUrl"));
+Set(varListDaily, EnvironmentVariableValue("LIST_DAILYLOG"));
+
+// 2) User + time context
+Set(varUser,      User());
+Set(varToday,     Today());
+Set(varTodayISO,  Text(varToday, "yyyy-mm-dd"));
+Set(varNow,       Now());
+
+// 3) Alias to your SharePoint list that you already added as a data source
+//    (left panel ▸ Data ▸ 'Daily Log')
+Set(dsDaily, 'Daily Log');
+Refresh(dsDaily);
+
+// 4) Pull today's entry for this user
+ClearCollect(
+    colToday,
+    Filter(
+        dsDaily,
+        Lower(EmployeeUPN) = Lower(varUser.Email) &&
+        DateValue(Date) = varToday
+    )
+);
+
+// 5) If none exists yet, make a local draft shell (not saved to SharePoint yet)
+If(
+    CountRows(colToday) = 0,
+    ClearCollect(
+        colToday,
+        Table({
+            ID: Blank(),
+            Title: varUser.FullName & " - " & varTodayISO,
+            EmployeeUPN: varUser.Email,
+            Date: varToday,
+            Plan: Blank(),
+            CheckInTime: Blank(),
+            CheckOutTime: Blank(),
+            Comments: Blank()
+        })
+    )
+);
+
+// 6) Land on Home
+Navigate(scrHome, ScreenTransition.Fade)

@@ -1,0 +1,15 @@
+<environmentvariabledefinition schemaname="cdph_spo_MemberList">
+  <apiid>/providers/microsoft.powerapps/apis/shared_sharepointonline</apiid>
+  <displayname default="spo_MemberList">
+    <label description="spo_MemberList" languagecode="1033" />
+  </displayname>
+  <introducedversion>1.0.0.4</introducedversion>
+  <iscustomizable>1</iscustomizable>
+  <isrequired>0</isrequired>
+  <parameterkey>table</parameterkey>
+  <parentdefinitionid>
+    <schemaname>cdph_spo_List</schemaname>
+  </parentdefinitionid>
+  <secretstore>0</secretstore>
+  <type>100000004</type>
+</environmentvariabledefinition>

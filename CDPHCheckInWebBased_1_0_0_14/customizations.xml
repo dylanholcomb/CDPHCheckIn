@@ -1,0 +1,51 @@
+<ImportExportXml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OrganizationVersion="9.2.26051.159" OrganizationSchemaType="Standard" CRMServerServiceabilityVersion="9.2.26052.00164">
+  <Entities></Entities>
+  <Roles></Roles>
+  <Workflows></Workflows>
+  <FieldSecurityProfiles></FieldSecurityProfiles>
+  <Templates />
+  <EntityMaps />
+  <EntityRelationships />
+  <OrganizationSettings />
+  <optionsets />
+  <CustomControls />
+  <EntityDataProviders />
+  <CanvasApps>
+    <CanvasApp>
+      <Name>cdph_cdphcheckinappwebbased_9ed8b</Name>
+      <AppVersion>2026-03-02T18:50:53Z</AppVersion>
+      <Status>Ready</Status>
+      <CreatedByClientVersion>3.26022.13.0</CreatedByClientVersion>
+      <MinClientVersion>3.26022.13.0</MinClientVersion>
+      <Tags>{"primaryDeviceWidth":"1366","primaryDeviceHeight":"768","supportsPortrait":"true","supportsLandscape":"true","primaryFormFactor":"Tablet","showStatusBar":"false","publisherVersion":"3.26022.13","minimumRequiredApiVersion":"2.2.0","hasComponent":"false","hasUnlockedComponent":"false","isUnifiedRootApp":"false","sienaVersion":"20260302T182745Z-3.26022.13.0"}</Tags>
+      <IsCdsUpgraded>0</IsCdsUpgraded>
+      <GalleryItemId xsi:nil="true"></GalleryItemId>
+      <BackgroundColor>RGBA(0,176,240,1)</BackgroundColor>
+      <DisplayName>CDPH Check In App Web Based</DisplayName>
+      <Description>Added Travel Team Overtime access</Description>
+      <CommitMessage xsi:nil="true"></CommitMessage>
+      <Publisher></Publisher>
+      <AuthorizationReferences>[]</AuthorizationReferences>
+      <ConnectionReferences>{"36b8caab-b617-4b9a-bc33-9050307e244a":{"id":"/providers/microsoft.powerapps/apis/shared_sharepointonline","displayName":"SharePoint","iconUri":"https://connectorsiconsfairfax.z5.web.core.usgovcloudapi.net/releases/v1.0.1769/1.0.1769.4361/sharepointonline/icon.png","dataSources":["Employee Members","spo_LogList"],"dependencies":[],"dependents":[],"parameterHints":{},"parameterHintsV2":{},"isOnPremiseConnection":false,"bypassConsent":false,"dataSets":{"https://cdph.sharepoint.com/sites/APandTravel":{"dataSources":{"Employee Members":{"tableName":"84610c34-3506-48e6-aa52-f390d0e1d184"}}},"https://cdph.sharepoint.com/sites/APandTravel_cdph_spo_List":{"datasetOverride":{"name":"https://cdph.sharepoint.com/sites/APandTravel","environmentVariableName":"cdph_spo_List"},"dataSources":{"spo_LogList":{"tableName":"7f32f3ad-327e-4780-a9ac-fd3f5909e7cd","tableNameOverride":{"name":"7f32f3ad-327e-4780-a9ac-fd3f5909e7cd","environmentVariableName":"cdph_spo_LogList"}}}}},"apiTier":"Standard","actions":["providers/PowerPlatform.Governance/Operations/Read","providers/PowerPlatform.Governance/Operations/Write"]}}</ConnectionReferences>
+      <DatabaseReferences>{}</DatabaseReferences>
+      <AppComponents>[]</AppComponents>
+      <AppComponentDependencies>[]</AppComponentDependencies>
+      <CanConsumeAppPass>1</CanConsumeAppPass>
+      <CanvasAppType>0</CanvasAppType>
+      <BypassConsent>0</BypassConsent>
+      <AdminControlBypassConsent>0</AdminControlBypassConsent>
+      <EmbeddedApp xsi:nil="true"></EmbeddedApp>
+      <IntroducedVersion>1.0</IntroducedVersion>
+      <CdsDependencies>{"cdsdependencies":[{"logicalname":"cdph_spo_List","componenttype":380,"componenttypeplatformname":"EnvironmentVariableDefinition"},{"logicalname":"cdph_spo_LogList","componenttype":380,"componenttypeplatformname":"EnvironmentVariableDefinition"}]}</CdsDependencies>
+      <IsCustomizable>1</IsCustomizable>
+      <BackgroundImageUri>/CanvasApps/cdph_cdphcheckinappwebbased_9ed8b_BackgroundImageUri</BackgroundImageUri>
+      <DocumentUri>/CanvasApps/cdph_cdphcheckinappwebbased_9ed8b_DocumentUri.msapp</DocumentUri>
+      <AdditionalUris>
+        <AdditionalUri>/CanvasApps/cdph_cdphcheckinappwebbased_9ed8b_AdditionalUris0_identity.json</AdditionalUri>
+      </AdditionalUris>
+    </CanvasApp>
+  </CanvasApps>
+  <Languages>
+    <Language>1033</Language>
+  </Languages>
+</ImportExportXml>
